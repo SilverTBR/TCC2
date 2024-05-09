@@ -68,8 +68,10 @@ GoogleSignin.configure({
       );
       if (permissao === PermissionsAndroid.RESULTS.GRANTED) {
         
+        
         const gdrive = new GDrive();
         gdrive.accessToken = await getToken();
+        
 
         //Pega id da pasta
         let pasta = await gdrive.files.createIfNotExists(
@@ -106,17 +108,18 @@ GoogleSignin.configure({
         const caminhoDoBanco = '/data/user/0/com.satisfyme/databases/projetoTCC.db';
         const conteudoDoBanco = await RNFS.readFile(caminhoDoBanco, 'base64');
 
-        console.log(pasta.result.id)
-        await gdrive.files
+        // console.log(pasta.result.id)
+        gdrive.files
           .newResumableUploader()
           .setData(conteudoDoBanco, MimeTypes.TEXT)
+          // .setShouldUseMultipleRequests(true)
           .setRequestBody({
             name: 'projetoTCC',
             parents: [pasta.result.id],
           })
           .execute();
         
-        console.log("Backup realizado com sucesso");
+        // console.log("Backup realizado com sucesso");
         await signOut();
         return { success: true, message: "Backup realizado com sucesso." };
       } else {
@@ -150,6 +153,10 @@ GoogleSignin.configure({
             .and()
             .in('root', 'parents'),
         });
+
+        if(pasta.files.length <= 0){
+          return { success: false, message: "Pasta não foi encontrada." };
+        }
   
         let arquivoBackup = await gdrive.files.list({
           q: new ListQueryBuilder()
@@ -160,14 +167,16 @@ GoogleSignin.configure({
             .in(pasta.files[0].id, 'parents'),
         });
 
-        // console.log("Teste");
+        if(arquivoBackup.files.length <= 0){
+          return { success: false, message: "Backup não foi encontrado." };
+        }
 
   
         let conteudoArquivoBackup = await gdrive.files.getText(
           arquivoBackup.files[0].id,
         );
   
-        // console.log('Conteúdo do backup:', conteudoArquivoBackup);
+        console.log('Conteúdo do backup:', conteudoArquivoBackup);
   
         await RNFS.writeFile(caminhoBancoDados, conteudoArquivoBackup, 'base64');
           

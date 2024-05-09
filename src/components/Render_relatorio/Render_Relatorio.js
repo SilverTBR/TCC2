@@ -1,5 +1,4 @@
-import React from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {estilos} from './Sty_render_relatorio';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {moderateScale} from 'react-native-size-matters';

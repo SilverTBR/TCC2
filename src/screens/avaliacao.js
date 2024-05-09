@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import { estilosGeral } from './styles/Sty_Geral';
 import { estiloAvaliacao } from './styles/Sty_Avaliacao';
@@ -51,7 +51,7 @@ const TelaAvaliacao = props => {
         }, 2000);
     }
 
-    const shouldShowButton = tempVoto.some(value => value !== 0);
+    const votou = tempVoto.some(value => value !== 0);
 
     return(
         <View style={[estilosGeral.background, {justifyContent: "center"}]}>
@@ -87,7 +87,7 @@ const TelaAvaliacao = props => {
                             </TouchableOpacity>
                         </View>
                     )}
-                    {shouldShowButton && (
+                    {votou && (
                         <View style={{width: "60%"}}>
                             <CustomButton
                                 texto="Confirmar avaliação"

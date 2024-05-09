@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, View } from "react-native";
+import { SafeAreaView, Text } from "react-native";
 import { estilosMainHeader } from "./Sty_mainHeader";
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { moderateScale } from "react-native-size-matters";

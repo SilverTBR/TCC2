@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import MainHeader from '../components/mainHeader/MainHeader';
 import Dropdownlist from '../components/DropdownList/Dropdownlist';
@@ -10,7 +10,6 @@ import { ListarFuncionarios } from '../controllers/controlFuncionarios';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CustomButton from '../components/Button/customButton';
 import Render_Relatorio from '../components/Render_relatorio/Render_Relatorio';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { realizarPesquisa } from '../controllers/controlRelatorios';
 import { useWindowDimensions } from 'react-native';
 
@@ -113,7 +112,7 @@ const TelaRelatorios = props => {
 
     return avalSom;
 };
-  const handleSelectFuncionario = id => {
+  const tSelectFuncionarios = id => {
     setSelectedFuncionarios(prevSelected => {
       const index = prevSelected.indexOf(id);
       if (index === -1) {
@@ -126,7 +125,7 @@ const TelaRelatorios = props => {
     });
   };
 
-  const handleSelectAtividade = id => {
+  const tSelectAtividade = id => {
     setSelectedAtividades(prevSelected => {
       const index = prevSelected.indexOf(id);
       if (index === -1) {
@@ -139,14 +138,14 @@ const TelaRelatorios = props => {
     });
   };
 
-  const onChangeDate = (event, selectedDate) => {
+  const mudouData = (event, selectedDate) => {
     if (selectedDate) {
       setDate(selectedDate);
     }
     setShowDate(false);
   };
 
-  const onChangeTime = (event, selectedTime) => {
+  const mudouHora = (event, selectedTime) => {
     if (selectedTime) {
       const hora = selectedTime.getHours();
       const minuto = selectedTime.getMinutes();
@@ -160,11 +159,12 @@ const TelaRelatorios = props => {
     }
   };
 
-  const showDatePickerModal = () => {
-    setShowDate(true);
-  };
+  const pressDate = () => {
+    if (!showDate) {
+      setShowDate(true);
+    }  };
 
-  const showTimePickerModal = () => {
+  const pressTime = () => {
     if (!showTimePicker) {
       setShowTimePicker(true);
     }
@@ -232,7 +232,7 @@ const TelaRelatorios = props => {
                   items={funcionarios}
                   selectedItems={selectedFuncionarios}
                   closeDropdown={closeDropdown}
-                  handleSelect={handleSelectFuncionario}
+                  handleSelect={tSelectFuncionarios}
                   isEditavel={false}
                 />
               )}
@@ -264,7 +264,7 @@ const TelaRelatorios = props => {
                   items={atividades}
                   selectedItems={selectedAtividades}
                   closeDropdown={closeDropdown}
-                  handleSelect={handleSelectAtividade}
+                  handleSelect={tSelectAtividade}
                   isEditavel={false}
                 />
               )}
@@ -277,7 +277,7 @@ const TelaRelatorios = props => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={showDatePickerModal}>
+                onPress={pressDate}>
                 <Text style={estilosGeral.inputGFont}>
                 {date ? date.toLocaleDateString() : 'dd/mm/yyyy'}     
                 </Text>
@@ -290,7 +290,7 @@ const TelaRelatorios = props => {
                   mode="date"
                   is24Hour={true}
                   display="default"
-                  onChange={onChangeDate}
+                  onChange={mudouData}
                 />
               )}
             </View>
@@ -300,7 +300,7 @@ const TelaRelatorios = props => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={showTimePickerModal}>
+                onPress={pressTime}>
                 <Text
                   style={
                     hora === ''
@@ -318,7 +318,7 @@ const TelaRelatorios = props => {
                   mode="time"
                   is24Hour={true}
                   display="default"
-                  onChange={onChangeTime}
+                  onChange={mudouHora}
                 />
               )}
             </View>

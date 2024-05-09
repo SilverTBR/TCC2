@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, TouchableOpacity, Image } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View } from 'react-native';
 import { estilosGeral } from './styles/Sty_Geral';
 import { moderateScale } from 'react-native-size-matters';
 import { BarChart } from 'react-native-charts-wrapper';
 import Orientation from 'react-native-orientation-locker';
 import PerfilHeader from '../components/mainHeader/PerfilHeader';
 import { processColor } from 'react-native';
+
+
 const TelaGrafico = (props) => {
   useEffect(() => {
     Orientation.lockToLandscape();
@@ -16,7 +18,7 @@ const TelaGrafico = (props) => {
 
   const [data, setData] = useState([]);
 
-  const fetchAvalData = async () => {
+  const definirAval = async () => {
     const avalData = [
       { aval: 'Muito ruim', valor: props.route.params.aula.aval_0, cor: '#d01333' },
       { aval: 'Ruim', valor: props.route.params.aula.aval_1, cor: '#f83233' },
@@ -29,7 +31,7 @@ const TelaGrafico = (props) => {
   };
 
   useEffect(() => {
-    fetchAvalData();
+    definirAval();
   }, []);
 
   return (

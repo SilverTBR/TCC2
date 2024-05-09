@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Text,
   TextInput,
@@ -15,7 +15,6 @@ import { moderateScale } from 'react-native-size-matters';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import CustomButton from '../components/Button/customButton';
 import { listarAtividades } from '../controllers/controlAtividades';
-import { carregarDatabase } from '../controllers/controlLogin';
 import { ListarFuncionarios } from '../controllers/controlFuncionarios';
 import {
   cadastrarAtividade,
@@ -66,54 +65,44 @@ const TelaAula = (props) => {
       } catch (error) {
         console.error('Erro ao carregar listas:', error);
       }
-    
-
+  
     });
 
     return unsubscribe;
   }, []);
 
-
-  const handlePressA = () => {
-    setDropdownVisibleA(!dropdownVisibleA);
-  };
-
-  const handlePressF = () => {
-    setDropdownVisibleF(!dropdownVisibleF);
-  };
-
-  const handleSelectAtividades = (id) => {
+  const tSelectAtividades = (id) => {
     setSelectedAtividades((prevSelected) => {
       const index = prevSelected.indexOf(id);
       if (index === -1) {
         return [...prevSelected, id];
       } else {
-        const newSelected = [...prevSelected];
-        newSelected.splice(index, 1);
-        return newSelected;
+        let selecionados = [...prevSelected];
+        selecionados.splice(index, 1);
+        return selecionados;
       }
     });
   };
 
-  const handleSelectFuncionarios = (id) => {
+  const tSelectFuncionarios = (id) => {
     setSelectedFuncionarios((prevSelected) => {
       const index = prevSelected.indexOf(id);
       if (index === -1) {
         return [...prevSelected, id];
       } else {
-        const newSelected = [...prevSelected];
-        newSelected.splice(index, 1);
-        return newSelected;
+        const selecionados = [...prevSelected];
+        selecionados.splice(index, 1);
+        return selecionados;
       }
     });
   };
 
-  const closeDropdown = () => {
+  const closeDropdowns = () => {
     setDropdownVisibleA(false);
     setDropdownVisibleF(false);
   };
 
-  const handleEditDeleteModal = (id, value, isDelete, isCadastro) => {
+  const EditDeleteModal = (id, value, isDelete, isCadastro) => {
     setItemSelecionadoId(id);
     setItemSelecionadoValue(value);
     setIsDelete(isDelete);
@@ -123,18 +112,18 @@ const TelaAula = (props) => {
 
   const adicionarAtividade = async () => {
     try {
-      const resultadoC = await cadastrarAtividade(itemSelecionadoValue);
-      if (resultadoC.success) {
-        const resultadoA = await listarAtividades();
-        if (resultadoA.success) {
-          setAtividades(resultadoA.atividades);
+      const resultado = await cadastrarAtividade(itemSelecionadoValue);
+      if (resultado.success) {
+        const resultadoL = await listarAtividades();
+        if (resultadoL.success) {
+          setAtividades(resultadoL.atividades);
           setAbrirModal(false);
           setModalError('');
         } else {
-          console.error('Erro ao carregar listas:', resultadoA.error);
+          console.error('Erro ao carregar listas:', resultadoL.error);
         }
       } else {
-        setModalError(resultadoC.error);
+        setModalError(resultado.error);
       }
     } catch (error) {
       console.error('Erro ao salvar atividade:', error);
@@ -168,12 +157,12 @@ const TelaAula = (props) => {
     try {
       const resultadoD = await deletarAtividade(itemSelecionadoId);
       if (resultadoD.success) {
-        const resultadoA = await listarAtividades();
-        if (resultadoA.success) {
-          setAtividades(resultadoA.atividades);
+        const resultadoL = await listarAtividades();
+        if (resultadoL.success) {
+          setAtividades(resultadoL.atividades);
           setAbrirModal(false);
         } else {
-          console.error('Erro ao carregar listas:', resultadoA.error);
+          console.error('Erro ao carregar listas:', resultadoL.error);
         }
       }
     } catch (error) {
@@ -181,20 +170,20 @@ const TelaAula = (props) => {
     }
   };
 
-  const onChangeDate = (event, selectedDate) => {
+  const mudouData = (event, selectedDate) => {
     if (selectedDate) {
       setDate(selectedDate);
     }
     setShowDate(false);
   };
 
-  const handlePressDate = () => {
+  const pressDate = () => {
     if (!showDate) {
       setShowDate(true);
     }
   };
 
-  const onChangeInicio = (event, selectedTime) => {
+  const mTempoInicio = (event, selectedTime) => {
     if (selectedTime) {
       const hora = selectedTime.getHours();
       const minuto = selectedTime.getMinutes();
@@ -210,7 +199,7 @@ const TelaAula = (props) => {
 
   
 
-  const onChangeFim = (event, selectedTime) => {
+  const mTempoFim = (event, selectedTime) => {
     if (selectedTime) {
       const hora = selectedTime.getHours();
       const minuto = selectedTime.getMinutes();
@@ -224,13 +213,13 @@ const TelaAula = (props) => {
     }
   };
 
-  const handlePressInicio = () => {
+  const pressInicio = () => {
     if (!showInicio) {
       setShowInicio(true);
     }
   };
 
-  const handlePressFim = () => {
+  const pressFim = () => {
     if (!showFim) {
       setShowFim(true);
     }
@@ -260,7 +249,7 @@ const TelaAula = (props) => {
 
 
   return (
-    <TouchableWithoutFeedback onPressIn={closeDropdown} disabled={(!dropdownVisibleA && !dropdownVisibleF)}>
+    <TouchableWithoutFeedback onPressIn={closeDropdowns} disabled={(!dropdownVisibleA && !dropdownVisibleF)}>
       <View style={estilosGeral.background}>
       <MainHeader action={() => { props.navigation.openDrawer(); }} backup={() => {setBackupModalVisible(!backupModalVisible)}}/>
         
@@ -286,7 +275,7 @@ const TelaAula = (props) => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={() => [handlePressA(), setDropdownVisibleF(false)]}>
+                onPress={() => [setDropdownVisibleA(!dropdownVisibleA), setDropdownVisibleF(false)]}>
                 <Text
                   style={[
                     estilosGeral.inputGFontPlaceholder,
@@ -307,9 +296,9 @@ const TelaAula = (props) => {
               <Dropdownlist
                 items={atividades}
                 selectedItems={selectedAtividades}
-                handleSelect={handleSelectAtividades}
-                closeDropdown={closeDropdown}
-                handleEditDeleteModal={handleEditDeleteModal}
+                handleSelect={tSelectAtividades}
+                closeDropdown={closeDropdowns}
+                handleEditDeleteModal={EditDeleteModal}
                 isEditavel={true}
               />
             )}
@@ -317,7 +306,7 @@ const TelaAula = (props) => {
             <TouchableOpacity
               style={estilosGeral.areaInputItem}
               activeOpacity={0.5}
-              onPress={() => [handlePressF(), setDropdownVisibleA(false)]}>
+              onPress={() => [setDropdownVisibleF(!dropdownVisibleF), setDropdownVisibleA(false)]}>
               <Text
                 style={estilosGeral.areaInputLabel}
                 ellipsizeMode="tail"
@@ -345,9 +334,9 @@ const TelaAula = (props) => {
               <Dropdownlist
                 items={funcionarios}
                 selectedItems={selectedFuncionarios}
-                handleSelect={handleSelectFuncionarios}
-                closeDropdown={closeDropdown}
-                handleEditDeleteModal={handleEditDeleteModal}
+                handleSelect={tSelectFuncionarios}
+                closeDropdown={closeDropdowns}
+                handleEditDeleteModal={EditDeleteModal}
                 isEditavel={false}
               />
             )}
@@ -371,7 +360,7 @@ const TelaAula = (props) => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={handlePressDate}
+                onPress={pressDate}
                 disabled={showDate}>
                 <Text style={[estilosGeral.inputGFont]}>
                   {date.toLocaleDateString()}
@@ -388,7 +377,7 @@ const TelaAula = (props) => {
                   value={date}
                   mode="date"
                   display="default"
-                  onChange={onChangeDate}
+                  onChange={mudouData}
                 />
               )}
             </View>
@@ -399,7 +388,7 @@ const TelaAula = (props) => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={handlePressInicio}
+                onPress={pressInicio}
                 disabled={showDate}>
                 <Text style={[estilosGeral.inputGFont]}>
                   {horaInicio === '' ? 'HH:MM' : horaInicio}
@@ -415,7 +404,7 @@ const TelaAula = (props) => {
                   value={date}
                   mode="time"
                   display="default"
-                  onChange={onChangeInicio}
+                  onChange={mTempoInicio}
                 />
               )}
             </View>
@@ -426,7 +415,7 @@ const TelaAula = (props) => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={handlePressFim}
+                onPress={pressFim}
                 disabled={showDate}>
                 <Text style={[estilosGeral.inputGFont]}>
                   {horaFim === '' ? 'HH:MM' : horaFim}
@@ -443,7 +432,7 @@ const TelaAula = (props) => {
                   value={date}
                   mode="time"
                   display="default"
-                  onChange={onChangeFim}
+                  onChange={mTempoFim}
                 />
               )}
             </View>

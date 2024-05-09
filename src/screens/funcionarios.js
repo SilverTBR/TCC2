@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { estilosGeral } from './styles/Sty_Geral';
 import MainHeader from '../components/mainHeader/MainHeader';
@@ -10,7 +10,6 @@ import { moderateScale } from 'react-native-size-matters';
 import { useWindowDimensions } from 'react-native';
 
 const TelaFuncionarios = props => {
-  const [pesquisa, setPesquisa] = useState('');
   const [funcionarios, setFuncionarios] = useState([]);
   const [orientation, setOrientation] = useState(Orientation.getInitialOrientation());
 
@@ -36,11 +35,10 @@ const TelaFuncionarios = props => {
 
 
   const calculaColunas = () => {
-    const itemWidth = moderateScale(90); // ou outro valor conforme o design
+    const itemWidth = moderateScale(90); 
     const screenWidth = (80 * width)/100;
     const numColunas = Math.floor(screenWidth / itemWidth);
-    console.log(Math.max(numColunas, 3));
-    return Math.max(numColunas, 3); // substitua 1 pelo número mínimo de colunas desejado
+    return Math.max(numColunas, 3); 
   };
 
   useEffect(() => {

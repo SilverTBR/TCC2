@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { estilos } from './Sty_render_player';
 

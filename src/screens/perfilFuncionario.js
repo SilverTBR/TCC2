@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Modal,
   TouchableWithoutFeedback,
-  Image
+  Image,
 } from 'react-native';
 import {useEffect, useState} from 'react';
 import PerfilHeader from '../components/mainHeader/PerfilHeader';
@@ -18,9 +18,12 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import CustomButton from '../components/Button/customButton';
 import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
 import ImgToBase64 from 'react-native-image-base64';
-import { cadastrarFuncionario, editarFuncionario, excluirFuncionario } from '../controllers/controlFuncionarios';
-import { estilosModal } from './styles/Sty_Modal';
-
+import {
+  cadastrarFuncionario,
+  editarFuncionario,
+  excluirFuncionario,
+} from '../controllers/controlFuncionarios';
+import {estilosModal} from './styles/Sty_Modal';
 
 const TelaPerfilFuncionario = props => {
   const [id, setId] = useState(null);
@@ -31,20 +34,17 @@ const TelaPerfilFuncionario = props => {
   const [cel, setCel] = useState('');
   const [infos, setInfos] = useState('');
   const [img64, setImg64] = useState('');
-  const [showPV, setShowPV] = useState(false);
   const [date, setDate] = useState(new Date());
   const [erro, setErro] = useState(null);
   const [abrirModalDelete, setAbrirModalDelete] = useState(false);
-  const [Editavel, setEditavel] = useState(false);
   const [showDate, setShowDate] = useState(false);
   const [avancar, setAvancar] = useState(false);
   const [abrirModal, setAbrirModal] = useState(false);
 
-
   useEffect(() => {
     if (props.route.params && props.route.params.funcionario) {
       const funcionario = props.route.params.funcionario;
-      setId(funcionario.id)
+      setId(funcionario.id);
       setNome(funcionario.nome);
       setArea(funcionario.area);
       setEmail(funcionario.email);
@@ -56,32 +56,51 @@ const TelaPerfilFuncionario = props => {
     }
   }, [props.route.params]);
 
-  const converteStringParaData = (data) => {
-    let [day, month, year] = data.split("/");
+  const converteStringParaData = data => {
+    let [day, month, year] = data.split('/');
     return new Date(year, month - 1, day);
-  }
+  };
 
-  const handleCadastro = async () => {
+  const Cadastrar = async () => {
     if (id) {
-      const response = await editarFuncionario(id, nome, email, date.toLocaleDateString(), area, cpf, cel, img64, infos);
-      if (response.success) {
+      const resposta = await editarFuncionario(
+        id,
+        nome,
+        email,
+        date.toLocaleDateString(),
+        area,
+        cpf,
+        cel,
+        img64,
+        infos,
+      );
+      if (resposta.success) {
         props.navigation.pop();
       } else {
-        setErro(response.error);
+        setErro(resposta.error);
       }
     } else {
-      const response = await cadastrarFuncionario(nome, email, date.toLocaleDateString(), area, cpf, cel, img64, infos);
-      if (response.success) {
+      const resposta = await cadastrarFuncionario(
+        nome,
+        email,
+        date.toLocaleDateString(),
+        area,
+        cpf,
+        cel,
+        img64,
+        infos,
+      );
+      if (resposta.success) {
         props.navigation.pop();
       } else {
-        setErro(response.error);
+        setErro(resposta.error);
       }
     }
   };
 
-  const handleDeletar = async () => {
+  const Deletar = async () => {
     const response = await excluirFuncionario(id);
-    setAbrirModalDelete(false)
+    setAbrirModalDelete(false);
     if (response.success) {
       props.navigation.pop();
     } else {
@@ -89,15 +108,17 @@ const TelaPerfilFuncionario = props => {
     }
   };
 
-  const handlePressDate = () => {
-    setShowDate(true);
+  const pressDate = () => {
+    if (!showDate) {
+      setShowDate(true);
+    }
   };
 
-  const onChangeDate = (event, selectedDate) => {
-    setShowDate(false);
+  const mudouData = (event, selectedDate) => {
     if (selectedDate) {
       setDate(selectedDate);
     }
+    setShowDate(false);
   };
 
   const convertIMG64 = imgURI => {
@@ -145,7 +166,9 @@ const TelaPerfilFuncionario = props => {
               }
         }
         nome={nome}
-        deleteAction={() => {setAbrirModalDelete(true)}}
+        deleteAction={() => {
+          setAbrirModalDelete(true);
+        }}
         id={id}
       />
 
@@ -259,7 +282,7 @@ const TelaPerfilFuncionario = props => {
                 <TouchableOpacity
                   style={estilosGeral.inputG}
                   activeOpacity={0.5}
-                  onPress={handlePressDate}
+                  onPress={pressDate}
                   disabled={showDate}>
                   <Text style={[estilosGeral.inputGFont]}>
                     {date.toLocaleDateString()}
@@ -276,7 +299,7 @@ const TelaPerfilFuncionario = props => {
                     value={date}
                     mode="date"
                     display="default"
-                    onChange={onChangeDate}
+                    onChange={mudouData}
                   />
                 )}
               </View>
@@ -309,21 +332,25 @@ const TelaPerfilFuncionario = props => {
             </>
           )}
         </View>
-          {erro && <View style={{marginVertical: 10}}>
+        {erro && (
+          <View style={{marginVertical: 10}}>
             <Text style={estilosGeral.textoError}>{erro}</Text>
-          </View>}
+          </View>
+        )}
 
         <CustomButton
           texto={avancar ? 'Salvar' : 'Avançar'}
-          action={avancar ? () => {handleCadastro()} :() => {
-            setAvancar(true);
-          }}
+          action={
+            avancar
+              ? () => {
+                  Cadastrar();
+                }
+              : () => {
+                  setAvancar(true);
+                }
+          }
         />
       </ScrollView>
-
-
-
-
 
       <Modal animationType="slide" transparent={true} visible={abrirModal}>
         <TouchableWithoutFeedback onPress={() => setAbrirModal(false)}>
@@ -369,8 +396,10 @@ const TelaPerfilFuncionario = props => {
         </TouchableWithoutFeedback>
       </Modal>
 
-
-      <Modal animationType="slide" transparent={true} visible={abrirModalDelete}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={abrirModalDelete}>
         <TouchableWithoutFeedback onPress={() => setAbrirModalDelete(false)}>
           <View style={estilosModal.modalContainer}>
             <TouchableWithoutFeedback
@@ -383,7 +412,11 @@ const TelaPerfilFuncionario = props => {
                       DELETAR O FUNCIONARIO {nome}
                     </Text>
                   </View>
-                  <Icon name="exclamation" size={moderateScale(100)} color="red" />
+                  <Icon
+                    name="exclamation"
+                    size={moderateScale(100)}
+                    color="red"
+                  />
                   <Text style={estilosModal.modalCaixaTexto}>
                     Tem certeza que irá deletar este funcionario?
                   </Text>
@@ -392,7 +425,7 @@ const TelaPerfilFuncionario = props => {
                       <CustomButton
                         texto="Confirmar"
                         action={() => {
-                          handleDeletar();
+                          Deletar();
                         }}
                       />
                     </View>
@@ -413,8 +446,6 @@ const TelaPerfilFuncionario = props => {
           </View>
         </TouchableWithoutFeedback>
       </Modal>
-
-
     </View>
   );
 };

@@ -1,9 +1,5 @@
 import { StyleSheet, useWindowDimensions, Dimensions } from "react-native";
-import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-  } from 'react-native-responsive-screen';
-  import { moderateScale } from "react-native-size-matters";
+import { moderateScale } from "react-native-size-matters";
 
 
 const estilosGeral = StyleSheet.create({

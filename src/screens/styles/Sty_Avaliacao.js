@@ -51,7 +51,7 @@ const estiloAvaliacao = StyleSheet.create({
         height: moderateScale(20), 
         position: "absolute", 
         top: "0%", 
-        right: "0%"
+        right: "0%",
     }
 })
 

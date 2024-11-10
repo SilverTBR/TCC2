@@ -11,11 +11,11 @@ const Render_Relatorio = ({item, acessar}) => {
           <View style={{width: '80%'}}>
             <Text style={estilos.objetivo}>{item.objetivo}</Text>
             <View style={estilos.tituloContainerConteudo}>
-              <Icon name="calendar" size={moderateScale(20)} color="black" />
+              <Icon name="calendar" size={moderateScale(17)} color="black" />
               <Text style={estilos.tituloContainerDataHora}>{item.data}</Text>
             </View>
             <View style={estilos.tituloContainerConteudo}>
-              <Icon name="clock" size={moderateScale(20)} color="black" />
+              <Icon name="clock" size={moderateScale(17)} color="black" />
               <Text style={estilos.tituloContainerDataHora}>{item.hora_inicio}</Text>
             </View>
           </View>

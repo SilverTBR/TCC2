@@ -1,15 +1,11 @@
     import { getDBInstance } from "../database/sqlite";
+    import aulaSchema from "../schemas/aulaSchema";
 
     const cadastrarAula = async (data, horaInicio, horaFim, objetivo, atividadesSelecionadas, funcionariosSelecionados) => {
         try {
-            const db = getDBInstance();
-            let erro = null;
+            const db = getDBInstance();            
+            await aulaSchema.validate({data, horaInicio, horaFim, objetivo, atividadesSelecionadas, funcionariosSelecionados})
 
-
-            if (!data || !horaInicio || !horaFim || funcionariosSelecionados.length === 0 || atividadesSelecionadas.length === 0) {
-                erro = "Campos invalidos.";
-                return { success: false, error: erro };
-            }
 
             const [result] = await db.executeSql(
                 'INSERT INTO aulas (data, hora_inicio, hora_fim, objetivo, aval_0, aval_1, aval_2, aval_3, aval_4) VALUES (?, ?, ?, ?, 0, 0, 0, 0, 0)',
@@ -36,8 +32,12 @@
             console.log('Aula cadastrada com sucesso.');
             return { success: true, aulaId };
         } catch (error) {
-            console.error('Erro ao cadastrar aula:', error);
-            return { success: false, error: "Erro ao cadastrar aula." };
+            if(error.code != null){
+                console.error('Erro ao cadastrar aula:', error);
+                return { success: false, error: "Erro ao cadastrar aula." };
+            }else{
+                return { success: false, error: error.errors[0]};
+            }
         }
     };
 

@@ -64,6 +64,7 @@ export const criarTabela = async db => {
       select * from atividades;
 `;
 
+// Tirar
   const tabelaUsuario = `
   CREATE TABLE IF NOT EXISTS usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

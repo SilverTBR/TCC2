@@ -70,6 +70,7 @@ GoogleSignin.configure({
         
         
         const gdrive = new GDrive();
+        gdrive.fetchTimeout = 10000;
         gdrive.accessToken = await getToken();
         
 
@@ -127,7 +128,7 @@ GoogleSignin.configure({
         return { success: false, message: "Permissão negada para escrita externa." };
       }
     } catch (erro) {
-      console.error('Erro ocorreu:', erro);
+      console.error(erro);
       return { success: false, message: "Um erro ocorreu." };
     }
   };
@@ -144,6 +145,7 @@ GoogleSignin.configure({
       if (permissao === PermissionsAndroid.RESULTS.GRANTED) {
         const gdrive = new GDrive();
         gdrive.accessToken = await getToken();
+        gdrive.fetchTimeout = 10000;
   
         let pasta = await gdrive.files.list({
           q: new ListQueryBuilder()
@@ -153,10 +155,13 @@ GoogleSignin.configure({
             .and()
             .in('root', 'parents'),
         });
+        console.log("Chego aqui1")
 
         if(pasta.files.length <= 0){
           return { success: false, message: "Pasta não foi encontrada." };
         }
+        console.log("Chego aqui2")
+
   
         let arquivoBackup = await gdrive.files.list({
           q: new ListQueryBuilder()
@@ -166,16 +171,22 @@ GoogleSignin.configure({
             .and()
             .in(pasta.files[0].id, 'parents'),
         });
+        console.log("Chego aqui3")
+
 
         if(arquivoBackup.files.length <= 0){
           return { success: false, message: "Backup não foi encontrado." };
         }
+        console.log("Chego aqui4")
 
+        console.log(arquivoBackup.files[0].id)
   
         let conteudoArquivoBackup = await gdrive.files.getText(
           arquivoBackup.files[0].id,
         );
-  
+
+        console.log("Chego aqui5")
+
         console.log('Conteúdo do backup:', conteudoArquivoBackup);
   
         await RNFS.writeFile(caminhoBancoDados, conteudoArquivoBackup, 'base64');
@@ -190,8 +201,8 @@ GoogleSignin.configure({
 
       }
     } catch (error) {
-      console.error('Um erro ocorreu:', error);
+      console.log(error);
+      await signOut();
       return { success: false, message: "Um erro ocorreu." };
-
     }
   };

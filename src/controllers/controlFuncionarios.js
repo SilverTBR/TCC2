@@ -1,28 +1,13 @@
 import { getDBInstance } from "../database/sqlite";
+import funcionarioSchema from "../schemas/funcionarioSchema";
 
-const validarCampos = (nome, email, area, cpf, celular) => {
-    if (!nome || nome.trim().length === 0) {
-        return "O campo Nome é obrigatório.";
-    } else if (!email || email.trim().length === 0) {
-        return "O campo Email é obrigatório.";
-    } else if (!area || area.trim().length === 0) {
-        return "O campo Área é obrigatório.";
-    } else if (!cpf || cpf.trim().length === 0) {
-        return "O campo CPF é obrigatório.";
-    } else if (!celular || celular.trim().length === 0) {
-        return "O campo Celular é obrigatório.";
-    }
-    return null;
-};
 
-const cadastrarFuncionario = async (nome, email, data, area, cpf, celular, foto, infoExtra) => {
+
+const cadastrarFuncionario = async (nome, email, data, area, cpf, celular, foto, infoExtra) => {    
     try {
-        const db = getDBInstance();
-        const erro = validarCampos(nome, email, area, cpf, celular);
+        await funcionarioSchema.validate({nome, email, data, area, cpf, celular, foto, infoExtra})
 
-        if (erro) {
-            return { success: false, error: erro };
-        }
+        const db = getDBInstance();
 
         const [resultado] = await db.executeSql(
             'SELECT id FROM funcionarios WHERE email = ?',
@@ -41,8 +26,14 @@ const cadastrarFuncionario = async (nome, email, data, area, cpf, celular, foto,
         return { success: true };
 
     } catch (error) {
-        console.error('Erro ao cadastrar funcionário:', error);
-        return { success: false, error: "Erro ao cadastrar funcionário." };
+        if(error.code != null){
+            console.error('Erro ao cadastrar funcionário:', error);
+            return { success: false, error: "Erro ao cadastrar funcionário." };
+        }else{
+            return { success: false, error: error.errors[0]};
+        }
+        
+
     }
 };
 
@@ -97,11 +88,7 @@ const selectFuncionarios = async () => {
 const editarFuncionario = async (id, nome, email, data, area, cpf, celular, foto, infoExtra) => {
     try {
         const db = getDBInstance();
-        const erro = validarCampos(nome, email, area, cpf, celular);
-
-        if (erro) {
-            return { success: false, error: erro };
-        }
+        await funcionarioSchema.validate({nome, email, data, area, cpf, celular, foto, infoExtra})
 
         const [resultadoVer] = await db.executeSql(
             'SELECT id FROM funcionarios WHERE id = ?',
@@ -120,8 +107,12 @@ const editarFuncionario = async (id, nome, email, data, area, cpf, celular, foto
         return { success: true };
 
     } catch (error) {
-        console.error('Erro ao editar funcionário:', error);
-        return { success: false, error: "Erro ao editar funcionário." };
+        if(error.code != null){
+            console.error('Erro ao cadastrar funcionário:', error);
+            return { success: false, error: "Erro ao cadastrar funcionário."};
+        }else{
+            return { success: false, error: error.errors[0]};
+        }
     }
 };
 

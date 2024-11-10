@@ -90,6 +90,8 @@ const TelaPerfilFuncionario = props => {
         img64,
         infos,
       );
+      console.log(resposta);
+      
       if (resposta.success) {
         props.navigation.pop();
       } else {
@@ -264,7 +266,7 @@ const TelaPerfilFuncionario = props => {
 
               <View style={estilosGeral.areaInputItem}>
                 <Text style={estilosGeral.areaInputLabel}>
-                  CPF: <Text style={{color: 'red'}}>*</Text>
+                  CPF<Text style={{color: 'red'}}>*</Text>
                 </Text>
                 <TextInputMask
                   style={[estilosGeral.inputG, estilosGeral.inputGFont]}
@@ -311,9 +313,9 @@ const TelaPerfilFuncionario = props => {
                 <TextInputMask
                   style={[estilosGeral.inputG, estilosGeral.inputGFont]}
                   value={cel}
-                  mask={'([00]) [0000]-[0000]'}
+                  mask={'([00]) 9[0000]-[0000]'}
                   onChangeText={setCel}
-                  placeholder="(__) ____-____"
+                  placeholder="(__) _____-____"
                   keyboardType="numeric"
                 />
               </View>

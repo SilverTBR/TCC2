@@ -36,6 +36,7 @@ const ModalBackup = props => {
     setCarregando(true)
     let resultado = await restoreDB();
     if (resultado.success) {
+      await props.RecarregarListas();
       setMsgCor('green');
     } else {
       setMsgCor('red');

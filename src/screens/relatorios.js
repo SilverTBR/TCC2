@@ -23,11 +23,13 @@ const TelaRelatorios = props => {
   const [selectedFuncionarios, setSelectedFuncionarios] = useState([]);
   const [date, setDate] = useState(null);
   const [hora, setHora] = useState('');
+  const [TempHora, setTempHora] = useState(new Date())
   const [showDate, setShowDate] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [aulasEncontradas, setAulasEncontradas] = useState([]); 
   const [isFilter, setIsFilter] = useState(false)  
   const [numColumns, setNumColumns] = useState(3);
+
 
   const realizarPesquisaAulas = async () => {
     const resultadoPesquisa = await realizarPesquisa(selectedFuncionarios, selectedAtividades, hora, date || '');
@@ -71,7 +73,7 @@ const TelaRelatorios = props => {
 
   const calculaColunas = () => {
     const itemWidth = moderateScale(300); // ou outro valor conforme o design
-    const screenWidth = (80 * width)/100;
+    const screenWidth = (70 * width)/100;
     const numColunas = Math.floor(screenWidth / itemWidth);
     return Math.max(numColunas, 1); // substitua 1 pelo número mínimo de colunas desejado
   };
@@ -172,7 +174,7 @@ const TelaRelatorios = props => {
 
   const reset = () => {
     setHora('');
-    setDate('');
+    setDate(null);
     setSelectedAtividades([]);
     setSelectedFuncionarios([]);
   };
@@ -278,8 +280,13 @@ const TelaRelatorios = props => {
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
                 onPress={pressDate}>
-                <Text style={estilosGeral.inputGFont}>
-                {date ? date.toLocaleDateString() : 'dd/mm/yyyy'}     
+                <Text
+                  style={
+                    date === null 
+                      ? estilosGeral.inputGFontPlaceholder
+                      : estilosGeral.inputGFont
+                  }>
+                  {date ? date.toLocaleDateString() : 'dd/mm/yyyy'}     
                 </Text>
                 <Icon name="calendar" size={moderateScale(25)} color="black" />
               </TouchableOpacity>
@@ -310,11 +317,12 @@ const TelaRelatorios = props => {
                   {hora === '' ? 'HH:MM' : hora}
                 </Text>
                 <Icon name="clock" size={moderateScale(25)} color="black" />
+                
               </TouchableOpacity>
               {showTimePicker && (
                 <DateTimePicker
                   testID="dateTimePicker"
-                  value={date}
+                  value={TempHora}
                   mode="time"
                   is24Hour={true}
                   display="default"

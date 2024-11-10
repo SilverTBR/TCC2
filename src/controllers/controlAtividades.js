@@ -1,26 +1,26 @@
 
 import { getDBInstance } from "../database/sqlite";
+import atividadeSchema from "../schemas/atividadeSchema";
+
 
 const cadastrarAtividade = async (nomeAtividade) => {
     try {
         const db = getDBInstance();
         let erro = null;
 
-        if (!nomeAtividade || nomeAtividade.trim().length === 0) {
-            erro = "Nome da atividade não pode estar vazio.";
-            return { success: false, error: erro };
-        }
+        
+        await atividadeSchema.validate({nomeAtividade})
+
         const atividadeLower = nomeAtividade.toLowerCase(); 
         const [validaAtividade] = await db.executeSql(
             'SELECT id FROM atividades WHERE LOWER(nome) = ?',
             [atividadeLower]
         );
+        
         if (validaAtividade.rows.length > 0) {
-            erro = "Esta atividade já está cadastrada.";
+            return {sucess: false, error: "Esta atividade já está cadastrada."}
         }
-        if (erro) {
-            return { success: false, error: erro };
-        }
+
         await db.executeSql(
             'INSERT INTO atividades (nome) VALUES (?)',
             [nomeAtividade]
@@ -28,8 +28,12 @@ const cadastrarAtividade = async (nomeAtividade) => {
         console.log('Atividade cadastrada com sucesso.');
         return { success: true };
     } catch (error) {
-        console.error('Erro ao cadastrar atividade:', error);
-        return { success: false, error: "Erro ao cadastrar atividade." };
+        if(error.code != null){
+            console.error('Erro ao cadastrar atividade:', error);
+            return { success: false, error: "Erro ao cadastrar atividade." };
+        }else{
+            return { success: false, error: error.errors[0]};
+        }
     }
 };
 
@@ -60,6 +64,16 @@ const listarAtividades = async () => {
 const deletarAtividade = async (idAtividade) => {
     try {
         const db = getDBInstance();
+
+        const [validaAtividade] = await db.executeSql(
+            'SELECT id FROM aulas_atividades WHERE atividade_id = ?',
+            [idAtividade]
+        );
+
+        if (validaAtividade.rows.length > 0) {
+            return {sucess: false, error: "Não é possivel excluir uma atividade que foi utilizada em uma aula."}
+        }
+
         await db.executeSql(
             'DELETE FROM atividades WHERE id = ?',
             [idAtividade]

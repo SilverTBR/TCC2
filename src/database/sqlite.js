@@ -102,7 +102,7 @@ export const criarTabela = async db => {
     data TEXT NOT NULL,
     hora_inicio TEXT NOT NULL,
     hora_fim TEXT NOT NULL,
-    objetivo TEXT,
+    objetivo TEXT NOT NULL,
     aval_0 NUMBER NOT NULL,
     aval_1 NUMBER NOT NULL,
     aval_2 NUMBER NOT NULL,

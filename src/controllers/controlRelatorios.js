@@ -75,7 +75,6 @@ const realizarPesquisa = async (funcionarioSel, atividadeSel, hora, data) => {
 
         consultaSQL += ` GROUP BY aulas.id`;
 
-        console.log('Consulta SQL:', consultaSQL);
 
         const [resultados] = await db.executeSql(consultaSQL);
         const aulas = resultados.rows.raw().map(aula => ({
@@ -83,6 +82,8 @@ const realizarPesquisa = async (funcionarioSel, atividadeSel, hora, data) => {
             funcionarios: aula.funcionarios.split(','),
             atividades: aula.atividades.split(',')
         }));
+
+        console.log(aulas);
 
         return { success: true, aulas };
 

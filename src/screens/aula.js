@@ -42,6 +42,8 @@ const TelaAula = props => {
   const [modalError, setModalError] = useState('');
   const [objetivo, setObjetivo] = useState('');
   const [date, setDate] = useState(new Date());
+  const [timeI, setTimeI] = useState(new Date());
+  const [timeF, setTimeF] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [horaInicio, setHoraInicio] = useState('');
   const [showInicio, setShowInicio] = useState(false);
@@ -171,10 +173,10 @@ const TelaAula = props => {
   };
 
   const mudouData = (event, selectedDate) => {
-    if (selectedDate) {
+    setShowDate(false);
+    if (selectedDate && event.type === 'set') {
       setDate(selectedDate);
     }
-    setShowDate(false);
   };
 
   const pressDate = () => {
@@ -184,7 +186,8 @@ const TelaAula = props => {
   };
 
   const mTempoInicio = (event, selectedTime) => {
-    if (selectedTime) {
+    setShowInicio(false)
+    if (selectedTime && event.type === 'set') {
       const hora = selectedTime.getHours();
       const minuto = selectedTime.getMinutes();
       const tempoAtual = `${hora < 10 ? '0' : ''}${hora}:${
@@ -192,22 +195,18 @@ const TelaAula = props => {
       }${minuto}`;
       setHoraInicio(tempoAtual);
     }
-    if (showInicio) {
-      setShowInicio(false);
-    }
+
   };
 
   const mTempoFim = (event, selectedTime) => {
-    if (selectedTime) {
+    setShowFim(false)
+    if (selectedTime && event.type === 'set') {
       const hora = selectedTime.getHours();
       const minuto = selectedTime.getMinutes();
       const tempoAtual = `${hora < 10 ? '0' : ''}${hora}:${
         minuto < 10 ? '0' : ''
       }${minuto}`;
       setHoraFim(tempoAtual);
-    }
-    if (showFim) {
-      setShowFim(false);
     }
   };
 
@@ -356,7 +355,7 @@ const TelaAula = props => {
             </View>
 
             <View style={estilosGeral.areaInputItem}>
-              <Text style={estilosGeral.areaInputLabel}>Objetivo</Text>
+              <Text style={estilosGeral.areaInputLabel}>Objetivo<Text style={{color: 'red'}}>*</Text></Text>
               <TextInput
                 style={[estilosGeral.inputG, estilosGeral.inputGFont]}
                 value={objetivo}
@@ -386,6 +385,7 @@ const TelaAula = props => {
                   mode="date"
                   display="default"
                   onChange={mudouData}
+                  negativeButton={{label: "Cancelar"}}
                 />
               )}
             </View>
@@ -398,43 +398,50 @@ const TelaAula = props => {
                 activeOpacity={0.5}
                 onPress={pressInicio}
                 disabled={showDate}>
-                <Text style={[estilosGeral.inputGFont]}>
+                <Text style={[estilosGeral.inputGFont, horaInicio === '' ? estilosGeral.inputGFontPlaceholder: '' ]} >
                   {horaInicio === '' ? 'HH:MM' : horaInicio}
                 </Text>
                 <Icon name="clock" size={moderateScale(25)} color="black" />
               </TouchableOpacity>
               {showInicio && (
                 <DateTimePicker
-                  value={date}
+                  testID='timeInicio'
+                  value={new Date()}
                   mode="time"
                   display="default"
                   onChange={mTempoInicio}
+                  negativeButton={{label: "Cancelar"}}
                 />
+                
               )}
             </View>
             <View style={estilosGeral.areaInputItem}>
               <Text style={estilosGeral.areaInputLabel}>
                 Hora do fim<Text style={{color: 'red'}}>*</Text>
               </Text>
+
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
                 onPress={pressFim}
                 disabled={showDate}>
-                <Text style={[estilosGeral.inputGFont]}>
-                  {horaFim === '' ? 'HH:MM' : horaFim}
+                <Text style={[estilosGeral.inputGFont, horaFim === '' ? estilosGeral.inputGFontPlaceholder: '' ]} >
+                {horaFim === '' ? 'HH:MM' : horaFim}
                 </Text>
                 <Icon name="clock" size={moderateScale(25)} color="black" />
               </TouchableOpacity>
+
               {showFim && (
                 <DateTimePicker
                   testID="dateTimePicker"
-                  value={date}
+                  value={new Date()}
                   mode="time"
                   display="default"
                   onChange={mTempoFim}
+                  negativeButton={{label: "Cancelar"}}
                 />
               )}
+
             </View>
             {error && (
               <View style={{marginVertical: 10}}>

@@ -117,10 +117,12 @@ const TelaPerfilFuncionario = props => {
   };
 
   const mudouData = (event, selectedDate) => {
-    if (selectedDate) {
+    setShowDate(false);
+    if (selectedDate && event.type === 'set') {
       setDate(selectedDate);
     }
-    setShowDate(false);
+    console.log(date);
+    
   };
 
   const convertIMG64 = imgURI => {
@@ -302,6 +304,7 @@ const TelaPerfilFuncionario = props => {
                     mode="date"
                     display="default"
                     onChange={mudouData}
+                    negativeButton={{label: "Cancelar"}}
                   />
                 )}
               </View>

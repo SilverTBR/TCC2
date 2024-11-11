@@ -141,23 +141,21 @@ const TelaRelatorios = props => {
   };
 
   const mudouData = (event, selectedDate) => {
-    if (selectedDate) {
+    setShowDate(false);
+    if (selectedDate && event.type === 'set') {
       setDate(selectedDate);
     }
-    setShowDate(false);
   };
 
   const mudouHora = (event, selectedTime) => {
-    if (selectedTime) {
+    setShowTimePicker(false);
+    if (selectedTime && event.type === 'set') {
       const hora = selectedTime.getHours();
       const minuto = selectedTime.getMinutes();
       const tempoAtual = `${hora < 10 ? '0' : ''}${hora}:${
         minuto < 10 ? '0' : ''
       }${minuto}`;
       setHora(tempoAtual);
-    }
-    if (showTimePicker) {
-      setShowTimePicker(false);
     }
   };
 
@@ -298,6 +296,7 @@ const TelaRelatorios = props => {
                   is24Hour={true}
                   display="default"
                   onChange={mudouData}
+                  negativeButton={{label: "Cancelar"}}
                 />
               )}
             </View>

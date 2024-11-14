@@ -7,6 +7,8 @@ import Orientation from 'react-native-orientation-locker';
 import CustomButton from '../components/Button/customButton';
 
 const TelaAvaliacao = props => {
+    console.log(props);
+    
     useEffect(() => {
         Orientation.lockToLandscape();
         return () => {

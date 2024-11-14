@@ -176,7 +176,7 @@ const TelaPerfilFuncionario = props => {
         id={id}
       />
 
-      <ScrollView style={[estilosGeral.main, {gap: 10}]}>
+      <ScrollView style={[estilosGeral.main, {gap: 10}]} showsVerticalScrollIndicator={false}>
         <View style={[estilosGeral.areaInfo, {alignItems: 'center'}]}>
           <Text style={estilosGeral.areaInfoTitulo}>DADOS PESSOAIS</Text>
           <View style={{flexDirection: 'row', alignItems: 'center', gap: 10}}>

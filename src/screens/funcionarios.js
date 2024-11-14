@@ -87,6 +87,7 @@ const TelaFuncionarios = props => {
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
             numColumns={numColumns}
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={{ gap: 20 }}
             {...(numColumns > 1 ? { columnWrapperStyle: { gap: 20 } } : {})}
             key={numColumns} 

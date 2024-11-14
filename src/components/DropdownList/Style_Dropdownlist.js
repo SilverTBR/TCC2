@@ -20,7 +20,7 @@ const estilosDropdownlist = StyleSheet.create({
     borderBottomColor: 'lightgray',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: moderateScale(38),
+    height: moderateScale(45),
   },
   dropdownItemText: {
     fontFamily: 'Roboto-Regular',

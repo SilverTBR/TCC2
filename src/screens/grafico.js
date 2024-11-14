@@ -18,7 +18,7 @@ const TelaGrafico = (props) => {
 
   const [data, setData] = useState([]);
 
-  const definirAval = async () => {
+  const definirAval = () => {
     const avalData = [
       { aval: 'Muito ruim', valor: props.route.params.aula.aval_0, cor: '#d01333' },
       { aval: 'Ruim', valor: props.route.params.aula.aval_1, cor: '#f83233' },
@@ -29,6 +29,10 @@ const TelaGrafico = (props) => {
 
     setData(avalData);
   };
+
+  const definirPercentual = () => {
+
+  }
 
   useEffect(() => {
     definirAval();

@@ -12,7 +12,8 @@ const estilos = StyleSheet.create({
         borderRadius: 5,
         justifyContent: "center",
         alignItems: "center",
-        height: moderateScale(38)
+        height: moderateScale(38),
+        paddingHorizontal: 10
     },
     buttonText:{
         fontSize: moderateScale(15),

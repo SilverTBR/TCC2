@@ -27,8 +27,8 @@ const estiloAvaliacao = StyleSheet.create({
     },
     avalImg:{
        resizeMode: "contain",
-       width: moderateScale(135),
-       height: moderateScale(130),
+       width: moderateScale(110),
+       height: moderateScale(110),
     },
     avalItem: {
         flex: 1,

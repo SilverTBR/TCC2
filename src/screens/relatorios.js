@@ -359,7 +359,6 @@ const TelaRelatorios = props => {
         </View>
         }
         
-        {/* Lista de relatórios */}
         <View style={estilosGeral.areaFlat}>
           <FlatList
             data={aulasEncontradas}
@@ -367,6 +366,7 @@ const TelaRelatorios = props => {
             keyExtractor={item => item.id}
             numColumns={numColumns}
             contentContainerStyle={{gap: 20}}
+            showsVerticalScrollIndicator={false}
             {...(numColumns > 1 ? {columnWrapperStyle: {gap: 20}} : {})}
             key={numColumns} 
 

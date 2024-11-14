@@ -25,7 +25,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {cadastrarAula} from '../controllers/controlAulas';
 import {initDB} from '../database/sqlite';
 import {estilosModal} from './styles/Sty_Modal';
-import ModalBackup from '../components/customModal/customModalBackup';
+import ModalBackup from '../components/modalBackup/modalBackup';
 
 const TelaAula = props => {
   const [atividades, setAtividades] = useState([]);
@@ -259,7 +259,9 @@ const TelaAula = props => {
 
         <ScrollView
           style={estilosGeral.main}
-          scrollEnabled={!dropdownVisibleA && !dropdownVisibleF}>
+          scrollEnabled={!dropdownVisibleA && !dropdownVisibleF}
+          showsVerticalScrollIndicator={false}
+          >
           <View style={estilosGeral.areaInfo}>
             <Text style={estilosGeral.areaInfoTitulo}>CADASTRO DE AULA</Text>
             <Text style={estilosGeral.areaInfoTexto}>

@@ -3,18 +3,18 @@ import {moderateScale} from 'react-native-size-matters';
 
 const estilos = StyleSheet.create({
     container:{
-        width: moderateScale(300),
-        height: moderateScale(88),
-        flexDirection: "row",
+        width: moderateScale(270),
+        height: moderateScale(150),
+        flexDirection: "column",
         backgroundColor: "#E3E3E3"
     },
     tituloContainer:{
-        width: moderateScale(124),
-        gap:10,
-        justifyContent: "center",
-        alignItems:"center"
-
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        paddingHorizontal: 20,
+        paddingVertical: 10,
     },
+    
     tituloContainerConteudo: {
         flexDirection: "row",
         alignItems:"center",
@@ -27,7 +27,9 @@ const estilos = StyleSheet.create({
     },
     FuncAtivi: {
         flex: 1,
-        marginLeft: 10
+        marginHorizontal: 5,
+        marginVertical: 6,
+        overflow: "hidden"
     },
 
     objetivo:{
@@ -41,11 +43,28 @@ const estilos = StyleSheet.create({
         fontSize: moderateScale(13),
         color: "black"
     },
-
-
+    
     conteudoText: {
         color: "white",
         fontSize: moderateScale(15)
+    },
+    dhContainer:{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 5,
+        paddingVertical: 5,
+        alignItems: "center",
+    },
+    dhContainerItems:{
+        flexDirection: "row",
+        gap: 5,
+        alignItems: "center"
+    },
+    textDH: {
+        fontFamily: "Roboto-Regular",
+        fontSize: moderateScale(13),
+        color: "black",
+        textAlign: "center"
     }
 })
 

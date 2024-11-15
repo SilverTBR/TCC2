@@ -31,7 +31,7 @@ const TelaGrafico = (props) => {
   };
 
   const definirPercentual = () => {
-
+    return (props.route.params.aula.aval_3+props.route.params.aula.aval_4)/(props.route.params.aula.aval_0+props.route.params.aula.aval_1+props.route.params.aula.aval_2+props.route.params.aula.aval_3+props.route.params.aula.aval_4)*100
   }
 
   useEffect(() => {
@@ -40,7 +40,7 @@ const TelaGrafico = (props) => {
 
   return (
     <View style={estilosGeral.background}>
-      <PerfilHeader titulo="RELATORIO GRAFICO" action={() => { props.navigation.pop() }} />
+      <PerfilHeader titulo={"PERCENTUAL DE APROVAÇÃO: "+ definirPercentual().toFixed(2)+"%"} action={() => { props.navigation.pop() }} />
       <View style={[estilosGeral.main, { width: '100%', justifyContent: 'center' }]}>
       <BarChart
   style={{ width: '100%', height: '90%' }}

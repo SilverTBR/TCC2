@@ -21,6 +21,47 @@ const Render_Relatorio = ({item, acessar}) => {
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <View style={estilos.container}>
           <View style={estilos.tituloContainer}>
+            <Text style={estilos.objetivo}>{item.objetivo}</Text>
+          </View>
+          <View style={estilos.FuncAtiviContainer}>
+            <View
+              style={[
+                estilos.FuncAtivi,
+                {borderRightWidth: 1, borderColor: 'black'},
+              ]}>
+              {item.funcionarios.map((funcionario, index) => (
+                <Text
+                  ellipsizeMode="tail"
+                  key={index}
+                  style={estilos.conteudoText}>
+                  {funcionario}
+                </Text>
+              ))}
+            </View>
+            <View style={estilos.FuncAtivi}>
+              {item.atividades.map((atividade, index) => (
+                <Text key={index} style={estilos.conteudoText}>
+                  {atividade}
+                </Text>
+              ))}
+            </View>
+          </View>
+          <View style={estilos.dhContainer}>
+            <View style={estilos.dhContainerItems}>
+              <Icon name="calendar" size={moderateScale(13)} color="black" />
+              <Text style={estilos.textDH}>{item.data}</Text>
+            </View>
+            <View style={estilos.dhContainerItems}>
+              <Icon name="clock" size={moderateScale(13)} color="black" />
+              <Text style={estilos.textDH}>{item.hora_inicio} - {item.hora_fim}</Text>
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+
+      {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <View style={estilos.container}>
+          <View style={estilos.tituloContainer}>
             <View style={{width: '80%'}}>
               <Text style={estilos.objetivo}>{item.objetivo}</Text>
               <View style={estilos.tituloContainerConteudo}>
@@ -59,7 +100,7 @@ const Render_Relatorio = ({item, acessar}) => {
             </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <Modal
         visible={modalVisible}

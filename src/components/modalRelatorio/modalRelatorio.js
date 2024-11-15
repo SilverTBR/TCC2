@@ -9,23 +9,25 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 const ModalRelatorio = (props) => {  
 
   return (
-    <TouchableOpacity
+    <View
       style={estilos.modalOverlay}
-      onPress={props.closeModal}
-      activeOpacity={1}
     >
     
       <View style={estilos.modalContainer} pointerEvents="auto">
         <ScrollView contentContainerStyle={estilos.modalScrollView}>
-          <TouchableWithoutFeedback onPress={() => {}}>
+        <View style={estilos.modalDH}>
+            <TouchableOpacity style={estilos.modalContent} onPress={props.closeModal}>
+              <Icon name="times" size={moderateScale(20)} color="black" />
+            </TouchableOpacity>
+              <CustomButton
+                texto="Relatorio"
+                action={() => {props.closeModal, props.acessar(props.item)}}
+              />     
+          </View>
           <View style={estilos.modalObjetivo}>
             <Text style={estilos.modalObjetivoText}>
               {props.item.objetivo}
-            </Text>
-            <CustomButton
-              texto="Relatorio"
-              action={() => {props.closeModal, props.acessar(props.item)}}
-            />          
+            </Text>     
             </View>
 
           <View style={estilos.modalFunc}>
@@ -51,87 +53,6 @@ const ModalRelatorio = (props) => {
                 </Text>
               </View>
             ))}
-             {props.item.atividades.map((atividade, index) => (
-              <View style={estilos.modalContent} key={index}>
-                <Icon name="check" size={moderateScale(15)} color="white" />
-                <Text style={estilos.modalFuncText}>
-                  {atividade}
-                </Text>
-              </View>
-            ))}
-             {props.item.atividades.map((atividade, index) => (
-              <View style={estilos.modalContent} key={index}>
-                <Icon name="check" size={moderateScale(15)} color="white" />
-                <Text style={estilos.modalFuncText}>
-                  {atividade}
-                </Text>
-              </View>
-            ))}
-             {props.item.atividades.map((atividade, index) => (
-              <View style={estilos.modalContent} key={index}>
-                <Icon name="check" size={moderateScale(15)} color="white" />
-                <Text style={estilos.modalFuncText}>
-                  {atividade}
-                </Text>
-              </View>
-            ))}
-             {props.item.atividades.map((atividade, index) => (
-              <View style={estilos.modalContent} key={index}>
-                <Icon name="check" size={moderateScale(15)} color="white" />
-                <Text style={estilos.modalFuncText}>
-                  {atividade}
-                </Text>
-              </View>
-            ))}
-             {props.item.atividades.map((atividade, index) => (
-              <View style={estilos.modalContent} key={index}>
-                <Icon name="check" size={moderateScale(15)} color="white" />
-                <Text style={estilos.modalFuncText}>
-                  {atividade}
-                </Text>
-              </View>
-            ))}
-             {props.item.atividades.map((atividade, index) => (
-              <View style={estilos.modalContent} key={index}>
-                <Icon name="check" size={moderateScale(15)} color="white" />
-                <Text style={estilos.modalFuncText}>
-                  {atividade}
-                </Text>
-              </View>
-            ))}
-             {props.item.atividades.map((atividade, index) => (
-              <View style={estilos.modalContent} key={index}>
-                <Icon name="check" size={moderateScale(15)} color="white" />
-                <Text style={estilos.modalFuncText}>
-                  {atividade}
-                </Text>
-              </View>
-            ))}
-             {props.item.atividades.map((atividade, index) => (
-              <View style={estilos.modalContent} key={index}>
-                <Icon name="check" size={moderateScale(15)} color="white" />
-                <Text style={estilos.modalFuncText}>
-                  {atividade}
-                </Text>
-              </View>
-            ))}
-             {props.item.atividades.map((atividade, index) => (
-              <View style={estilos.modalContent} key={index}>
-                <Icon name="check" size={moderateScale(15)} color="white" />
-                <Text style={estilos.modalFuncText}>
-                  {atividade}
-                </Text>
-              </View>
-            ))}
-             {props.item.atividades.map((atividade, index) => (
-              <View style={estilos.modalContent} key={index}>
-                <Icon name="check" size={moderateScale(15)} color="white" />
-                <Text style={estilos.modalFuncText}>
-                  {atividade}
-                </Text>
-              </View>
-            ))}
-            
           </View>
 
           <View style={estilos.modalDH}>
@@ -148,10 +69,9 @@ const ModalRelatorio = (props) => {
               </Text>
             </View>
           </View>
-          </TouchableWithoutFeedback>
         </ScrollView>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

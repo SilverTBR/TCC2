@@ -72,8 +72,8 @@ const TelaRelatorios = props => {
   const {width} = useWindowDimensions();
 
   const calculaColunas = () => {
-    const itemWidth = moderateScale(300); // ou outro valor conforme o design
-    const screenWidth = (70 * width)/100;
+    const itemWidth = moderateScale(270); // ou outro valor conforme o design
+    const screenWidth = (80 * width)/100;
     const numColunas = Math.floor(screenWidth / itemWidth);
     return Math.max(numColunas, 1); // substitua 1 pelo número mínimo de colunas desejado
   };

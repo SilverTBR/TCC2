@@ -3,15 +3,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {moderateScale} from 'react-native-size-matters';
 import {estilosDropdownlist} from './Style_Dropdownlist';
 
-const Dropdownlist = ({
-  items,
-  selectedItems,
-  handleSelect,
-  closeDropdown,
-  handleEditDeleteModal,
-  isEditavel,
-}) => {
-  // Determinar a altura do ScrollView com base no número de itens
+const Dropdownlist = ({items, selectedItems, handleSelect, closeDropdown, handleEditDeleteModal, isEditavel}) => {
   const dropdownHeight =
   Math.max(Math.min(items.length + 1, 3), 1) * moderateScale(38);
 

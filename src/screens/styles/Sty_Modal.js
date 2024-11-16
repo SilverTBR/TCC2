@@ -2,12 +2,12 @@ import { StyleSheet } from "react-native";
 import { moderateScale } from "react-native-size-matters";
 
 const estilosModal = StyleSheet.create({
-  modalContainer: {
+  modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.35)",
     justifyContent: "flex-end"
   },
-  modalCaixa: {
+  modalContainer: {
     width: "100%",
     height: moderateScale(355),
     backgroundColor: "white",
@@ -15,7 +15,7 @@ const estilosModal = StyleSheet.create({
     borderTopRightRadius: moderateScale(41),
     padding: moderateScale(20)
   },
-  modalCaixaItems: {
+  modalContainerItems: {
     flex: 1,
     alignItems: "center",
     gap: 20
@@ -29,7 +29,7 @@ const estilosModal = StyleSheet.create({
     ...this.modalCaixaTexto,
     fontFamily: "Roboto-Bold"
   },
-  modalCaixaHeader: {
+  modalContainerHeader: {
     width: '100%', 
     justifyContent: 'space-between', 
     flexDirection: 'row',

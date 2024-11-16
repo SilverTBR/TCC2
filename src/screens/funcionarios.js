@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { estilosGeral } from './styles/Sty_Geral';
-import MainHeader from '../components/mainHeader/MainHeader';
+import MainHeader from '../components/MainHeader/MainHeader';
 import CustomButton from '../components/Button/customButton';
 import Render_Funcionario from '../components/Render_funcionario/Render_Funcionario';
 import { selectFuncionarios } from '../controllers/controlFuncionarios';
@@ -46,19 +46,12 @@ const TelaFuncionarios = props => {
   }, [width]);
 
   useEffect(() => {
-    const unsubscribe = props.navigation.addListener('focus', () => {
+    const reFocus = props.navigation.addListener('focus', () => {
       carregarDados();
     });
 
-    const updateOrientation = orientation => {
-      setOrientation(orientation);
-    };
-
-    Orientation.addOrientationListener(updateOrientation);
-
     return () => {
-      Orientation.removeOrientationListener(updateOrientation);
-      unsubscribe();
+      reFocus();
     };
   }, []);
 

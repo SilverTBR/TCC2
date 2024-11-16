@@ -1,15 +1,6 @@
-import {
-  Text,
-  View,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-  Modal,
-  TouchableWithoutFeedback,
-  Image,
-} from 'react-native';
+import {Text, View, TextInput, ScrollView, TouchableOpacity, Modal, TouchableWithoutFeedback, Image} from 'react-native';
 import {useEffect, useState} from 'react';
-import PerfilHeader from '../components/mainHeader/PerfilHeader';
+import PerfilHeader from '../components/MainHeader/PerfilHeader';
 import {estilosGeral} from './styles/Sty_Geral';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {moderateScale} from 'react-native-size-matters';
@@ -18,11 +9,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import CustomButton from '../components/Button/customButton';
 import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
 import ImgToBase64 from 'react-native-image-base64';
-import {
-  cadastrarFuncionario,
-  editarFuncionario,
-  excluirFuncionario,
-} from '../controllers/controlFuncionarios';
+import {cadastrarFuncionario, editarFuncionario, excluirFuncionario} from '../controllers/controlFuncionarios';
 import {estilosModal} from './styles/Sty_Modal';
 
 const TelaPerfilFuncionario = props => {
@@ -63,35 +50,15 @@ const TelaPerfilFuncionario = props => {
 
   const Cadastrar = async () => {
     if (id) {
-      const resposta = await editarFuncionario(
-        id,
-        nome,
-        email,
-        date.toLocaleDateString(),
-        area,
-        cpf,
-        cel,
-        img64,
-        infos,
-      );
+      const resposta = await editarFuncionario(id, nome, email, date.toLocaleDateString(), area, cpf, cel, img64, infos);
       if (resposta.success) {
         props.navigation.pop();
       } else {
         setErro(resposta.error);
       }
     } else {
-      const resposta = await cadastrarFuncionario(
-        nome,
-        email,
-        date.toLocaleDateString(),
-        area,
-        cpf,
-        cel,
-        img64,
-        infos,
-      );
-      console.log(resposta);
-      
+      const resposta = await cadastrarFuncionario(nome, email, date.toLocaleDateString(), area, cpf, cel, img64, infos);
+      console.log(resposta); 
       if (resposta.success) {
         props.navigation.pop();
       } else {
@@ -110,18 +77,11 @@ const TelaPerfilFuncionario = props => {
     }
   };
 
-  const pressDate = () => {
-    if (!showDate) {
-      setShowDate(true);
-    }
-  };
-
   const mudouData = (event, selectedDate) => {
     setShowDate(false);
     if (selectedDate && event.type === 'set') {
       setDate(selectedDate);
     }
-    console.log(date);
     
   };
 
@@ -286,7 +246,7 @@ const TelaPerfilFuncionario = props => {
                 <TouchableOpacity
                   style={estilosGeral.inputG}
                   activeOpacity={0.5}
-                  onPress={pressDate}
+                  onPress={() => {setShowDate(!showDate)}}
                   disabled={showDate}>
                   <Text style={[estilosGeral.inputGFont]}>
                     {date.toLocaleDateString()}
@@ -359,13 +319,13 @@ const TelaPerfilFuncionario = props => {
 
       <Modal animationType="slide" transparent={true} visible={abrirModal}>
         <TouchableWithoutFeedback onPress={() => setAbrirModal(false)}>
-          <View style={estilosModal.modalContainer}>
+          <View style={estilosModal.modalOverlay}>
             <TouchableWithoutFeedback
               onPress={() => {}}
               touchSoundDisabled={true}>
-              <View style={estilosModal.modalCaixa}>
-                <View style={estilosModal.modalCaixaItems}>
-                  <View style={estilosModal.modalCaixaHeader}>
+              <View style={estilosModal.modalContainer}>
+                <View style={estilosModal.modalContainerItems}>
+                  <View style={estilosModal.modalContainerHeader}>
                     <Text style={estilosGeral.areaTitulo}>
                       SELECIONAR FOTO DO FUNCIONARIO
                     </Text>
@@ -406,13 +366,13 @@ const TelaPerfilFuncionario = props => {
         transparent={true}
         visible={abrirModalDelete}>
         <TouchableWithoutFeedback onPress={() => setAbrirModalDelete(false)}>
-          <View style={estilosModal.modalContainer}>
+          <View style={estilosModal.modalOverlay}>
             <TouchableWithoutFeedback
               onPress={() => {}}
               touchSoundDisabled={true}>
-              <View style={estilosModal.modalCaixa}>
-                <View style={estilosModal.modalCaixaItems}>
-                  <View style={estilosModal.modalCaixaHeader}>
+              <View style={estilosModal.modalContainer}>
+                <View style={estilosModal.modalContainerItems}>
+                  <View style={estilosModal.modalContainerHeader}>
                     <Text style={estilosGeral.areaTitulo}>
                       DELETAR O FUNCIONARIO {nome}
                     </Text>

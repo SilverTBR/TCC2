@@ -4,7 +4,7 @@ import { estilosGeral } from './styles/Sty_Geral';
 import { moderateScale } from 'react-native-size-matters';
 import { BarChart } from 'react-native-charts-wrapper';
 import Orientation from 'react-native-orientation-locker';
-import PerfilHeader from '../components/mainHeader/PerfilHeader';
+import PerfilHeader from '../components/MainHeader/PerfilHeader';
 import { processColor } from 'react-native';
 
 

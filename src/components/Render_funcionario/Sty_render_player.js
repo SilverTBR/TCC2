@@ -8,10 +8,8 @@ const estilos = StyleSheet.create({
     },
     container: {
       borderRadius: moderateScale(2),
-        flex: 1,
-      // maxWidth: 350,
+      flex: 1,
       alignItems: "center",
-      //flexWrap: "wrap",
       justifyContent: "center",
       },
     text: {

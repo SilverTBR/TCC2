@@ -1,14 +1,6 @@
 import {useState, useEffect} from 'react';
-import {
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  TouchableWithoutFeedback,
-  Modal,
-  ScrollView,
-} from 'react-native';
-import MainHeader from '../components/mainHeader/MainHeader';
+import {Text, TextInput, TouchableOpacity, View, TouchableWithoutFeedback,Modal, ScrollView} from 'react-native';
+import MainHeader from '../components/MainHeader/MainHeader';
 import Dropdownlist from '../components/DropdownList/Dropdownlist';
 import {estilosGeral} from './styles/Sty_Geral';
 import {moderateScale} from 'react-native-size-matters';
@@ -16,16 +8,12 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import CustomButton from '../components/Button/customButton';
 import {listarAtividades} from '../controllers/controlAtividades';
 import {ListarFuncionarios} from '../controllers/controlFuncionarios';
-import {
-  cadastrarAtividade,
-  deletarAtividade,
-  editarAtividade,
-} from '../controllers/controlAtividades';
+import {cadastrarAtividade,deletarAtividade,editarAtividade} from '../controllers/controlAtividades';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {cadastrarAula} from '../controllers/controlAulas';
 import {initDB} from '../database/sqlite';
 import {estilosModal} from './styles/Sty_Modal';
-import ModalBackup from '../components/modalBackup/modalBackup';
+import ModalBackup from '../components/ModalBackup/modalBackup';
 
 const TelaAula = props => {
   const [atividades, setAtividades] = useState([]);
@@ -42,8 +30,6 @@ const TelaAula = props => {
   const [modalError, setModalError] = useState('');
   const [objetivo, setObjetivo] = useState('');
   const [date, setDate] = useState(new Date());
-  const [timeI, setTimeI] = useState(new Date());
-  const [timeF, setTimeF] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [horaInicio, setHoraInicio] = useState('');
   const [showInicio, setShowInicio] = useState(false);
@@ -53,7 +39,7 @@ const TelaAula = props => {
   const [backupModalVisible, setBackupModalVisible] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = props.navigation.addListener('focus', async () => {
+    const reFocus = props.navigation.addListener('focus', async () => {
       try {
         await initDB();
         const resultadoA = await listarAtividades();
@@ -67,10 +53,10 @@ const TelaAula = props => {
       }
     });
 
-    return unsubscribe;
+    return reFocus;
   }, []);
 
-  const tSelectAtividades = id => {
+  const selectAtividades = id => {
     setSelectedAtividades(prevSelected => {
       const index = prevSelected.indexOf(id);
       if (index === -1) {
@@ -83,7 +69,7 @@ const TelaAula = props => {
     });
   };
 
-  const tSelectFuncionarios = id => {
+  const selectFuncionarios = id => {
     setSelectedFuncionarios(prevSelected => {
       const index = prevSelected.indexOf(id);
       if (index === -1) {
@@ -307,7 +293,7 @@ const TelaAula = props => {
                 <Dropdownlist
                   items={atividades}
                   selectedItems={selectedAtividades}
-                  handleSelect={tSelectAtividades}
+                  handleSelect={selectAtividades}
                   closeDropdown={closeDropdowns}
                   handleEditDeleteModal={EditDeleteModal}
                   isEditavel={true}
@@ -348,7 +334,7 @@ const TelaAula = props => {
                 <Dropdownlist
                   items={funcionarios}
                   selectedItems={selectedFuncionarios}
-                  handleSelect={tSelectFuncionarios}
+                  handleSelect={selectFuncionarios}
                   closeDropdown={closeDropdowns}
                   handleEditDeleteModal={EditDeleteModal}
                   isEditavel={false}
@@ -464,14 +450,14 @@ const TelaAula = props => {
         <Modal animationType="slide" transparent={true} visible={abrirModal}>
           <TouchableWithoutFeedback
             onPress={() => [setAbrirModal(false), setModalError('')]}>
-            <View style={estilosModal.modalContainer}>
+            <View style={estilosModal.modalOverlay}>
               <TouchableWithoutFeedback
                 onPress={() => {}}
                 touchSoundDisabled={true}>
-                <View style={estilosModal.modalCaixa}>
-                  <View style={estilosModal.modalCaixaItems}>
-                    <View style={estilosModal.modalCaixaHeader}>
-                      <Text style={estilosModal.areaTitulo}>
+                <View style={estilosModal.modalContainer}>
+                  <View style={estilosModal.modalContainerItems}>
+                    <View style={estilosModal.modalContainerHeader}>
+                      <Text style={estilosGeral.areaTitulo}>
                         {isDelete
                           ? 'DELETAR'
                           : isCadastro

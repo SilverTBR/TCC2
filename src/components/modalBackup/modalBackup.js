@@ -2,9 +2,8 @@ import {
   View,
   Text,
   TouchableWithoutFeedback,
-  Modal,
-  TouchableOpacity,
   ActivityIndicator,
+  TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {estilosGeral} from '../../screens/styles/Sty_Geral';
@@ -47,14 +46,14 @@ const ModalBackup = props => {
 
   return (
     <TouchableWithoutFeedback onPress={props.close}>
-      <View style={estilosModal.modalContainer}>
+      <View style={estilosModal.modalOverlay}>
         <TouchableWithoutFeedback onPress={() => {}} touchSoundDisabled={true}>
-          <View style={[estilosModal.modalCaixa, {height: moderateScale(255)}]}>
-            <View style={estilosModal.modalCaixaItems}>
-              <View style={estilosModal.modalCaixaHeader}>
-                <Text style={estilosGeral.areaTitulo}>
-                  BACKUP DO BANCO DE DADOS
-                </Text>
+          <View style={[estilosModal.modalContainer, {height: moderateScale(255)}]}>
+            <View style={estilosModal.modalContainerItems}>
+              <View style={estilosModal.modalContainerHeader}>
+                <TouchableOpacity onPress={props.close}>
+                  <Icon name="times" size={moderateScale(20)} color="black" />
+                </TouchableOpacity>
               </View>
               <Text style={[estilosModal.modalCaixaTexto, {color: msgCor}]}>
                 {!msg

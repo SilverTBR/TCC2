@@ -21,13 +21,13 @@ const realizarPesquisa = async (funcionarioSel, atividadeSel, hora, data) => {
                 GROUP_CONCAT(DISTINCT atividades.nome) AS atividades
             FROM 
                 aulas
-            LEFT JOIN 
+            INNER JOIN 
                 aulas_funcionarios ON aulas.id = aulas_funcionarios.aula_id
-            LEFT JOIN 
+            INNER JOIN 
                 funcionarios ON aulas_funcionarios.funcionario_id = funcionarios.id
-            LEFT JOIN 
+            INNER JOIN 
                 aulas_atividades ON aulas.id = aulas_atividades.aula_id
-            LEFT JOIN 
+            INNER JOIN 
                 atividades ON aulas_atividades.atividade_id = atividades.id
         `;
 

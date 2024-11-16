@@ -64,17 +64,6 @@ export const criarTabela = async db => {
       select * from atividades;
 `;
 
-// Tirar
-  const tabelaUsuario = `
-  CREATE TABLE IF NOT EXISTS usuarios (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    senha TEXT NOT NULL,
-    palavraC TEXT NOT NULL
-  )
-  `;
-
   const tabelaAtividade = `
   CREATE TABLE IF NOT EXISTS atividades (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -131,7 +120,12 @@ export const criarTabela = async db => {
     )
 `;
 
+  const viewAllAulas =`
+  select * from aulas;
+  `
+
   try {
+    // Para testes
     // await db.executeSql(deleteUsuario);
     // await db.executeSql(deleteAulas);
     // await db.executeSql(deleteAulasAtividades);
@@ -140,9 +134,9 @@ export const criarTabela = async db => {
     // await db.executeSql(deleteAtividades);
     // const [result] = await db.executeSql(selectAllAtividade);
     // const atividades = result.rows.raw();
-
+    // console.log(await db.executeSql(viewAllAulas.));
     // console.log("Atividades:", atividades);
-    await db.executeSql(tabelaUsuario);
+    
     await db.executeSql(tabelaAtividade);
     await db.executeSql(tabelaFuncionarios);
     await db.executeSql(tabelaAulas);

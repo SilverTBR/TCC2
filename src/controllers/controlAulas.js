@@ -3,9 +3,8 @@
 
     const cadastrarAula = async (data, horaInicio, horaFim, objetivo, atividadesSelecionadas, funcionariosSelecionados) => {
         try {
-            const db = getDBInstance();            
             await aulaSchema.validate({data, horaInicio, horaFim, objetivo, atividadesSelecionadas, funcionariosSelecionados})
-
+            const db = getDBInstance();            
 
             const [result] = await db.executeSql(
                 'INSERT INTO aulas (data, hora_inicio, hora_fim, objetivo, aval_0, aval_1, aval_2, aval_3, aval_4) VALUES (?, ?, ?, ?, 0, 0, 0, 0, 0)',
@@ -13,7 +12,6 @@
             );
 
             const aulaId = result.insertId;
-
             atividadesSelecionadas.forEach(async (atividadeId) => {
                 await db.executeSql(
                     'INSERT INTO aulas_atividades (aula_id, atividade_id) VALUES (?, ?)',
@@ -41,24 +39,6 @@
         }
     };
 
-    //para teste
-    const listarAulas = async () => {
-        try {
-            const db = getDBInstance();
-
-            const [resultado] = await db.executeSql(
-                'SELECT * FROM aulas'
-            );
-            const aulas = resultado.rows.raw(); 
-
-            console.log(aulas);
-            return { success: true, aulas };
-        } catch (error) {
-            console.error('Erro ao listar aulas:', error);
-            return { success: false, error: "Erro ao listar aulas." };
-        }
-    };
-
     const alterarAvaliacao = async (aulaId, aval_0, aval_1, aval_2, aval_3, aval_4) => {
         try {
             const db = getDBInstance();
@@ -75,4 +55,4 @@
     };
 
 
-    export { cadastrarAula, listarAulas, alterarAvaliacao };
+    export { cadastrarAula, alterarAvaliacao };

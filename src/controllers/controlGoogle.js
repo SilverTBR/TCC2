@@ -1,15 +1,7 @@
 import RNFS from 'react-native-fs';
 import {PermissionsAndroid} from 'react-native';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
-import {
-  GDrive,
-  MimeTypes,
-  ListQueryBuilder,
-} from '@robinbobin/react-native-google-drive-api-wrapper';
-
+import {GoogleSignin, statusCodes} from '@react-native-google-signin/google-signin';
+import {GDrive,MimeTypes,ListQueryBuilder} from '@robinbobin/react-native-google-drive-api-wrapper';
 
 GoogleSignin.configure({
     webClientId:
@@ -20,7 +12,7 @@ GoogleSignin.configure({
       'https://www.googleapis.com/auth/drive',
       'https://www.googleapis.com/auth/drive.appdata',
     ],
-  });
+});
 
   
   export const getToken = async () => {
@@ -155,13 +147,10 @@ GoogleSignin.configure({
             .and()
             .in('root', 'parents'),
         });
-        console.log("Chego aqui1")
 
         if(pasta.files.length <= 0){
           return { success: false, message: "Pasta não foi encontrada." };
         }
-        console.log("Chego aqui2")
-
   
         let arquivoBackup = await gdrive.files.list({
           q: new ListQueryBuilder()
@@ -171,23 +160,17 @@ GoogleSignin.configure({
             .and()
             .in(pasta.files[0].id, 'parents'),
         });
-        console.log("Chego aqui3")
 
 
         if(arquivoBackup.files.length <= 0){
           return { success: false, message: "Backup não foi encontrado." };
         }
-        console.log("Chego aqui4")
 
         console.log(arquivoBackup.files[0].id)
   
         let conteudoArquivoBackup = await gdrive.files.getText(
           arquivoBackup.files[0].id,
         );
-
-        console.log("Chego aqui5")
-
-        console.log('Conteúdo do backup:', conteudoArquivoBackup);
   
         await RNFS.writeFile(caminhoBancoDados, conteudoArquivoBackup, 'base64');
           

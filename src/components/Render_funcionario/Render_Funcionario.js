@@ -14,7 +14,6 @@ const Render_Funcionario = ({ item, acessarPerfil }) => {
         <View style={estilos.containerFilho}>
           <Text style={estilos.text} numberOfLines={1} ellipsizeMode='tail'>{item.nome}</Text>
           <Text style={estilos.text} numberOfLines={1} ellipsizeMode='tail'>{item.area}</Text>
-
         </View>
       </View>
     </TouchableOpacity>

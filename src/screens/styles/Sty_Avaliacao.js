@@ -1,11 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 
-
-
-
-
-
 const estiloAvaliacao = StyleSheet.create({
     textTitulo: {
         fontSize: moderateScale(45),

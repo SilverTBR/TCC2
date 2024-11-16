@@ -1,21 +1,17 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { estilos } from './Sty_modalRelatorio';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { moderateScale } from 'react-native-size-matters';
 import CustomButton from '../Button/customButton';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const ModalRelatorio = (props) => {  
 
   return (
-    <View
-      style={estilos.modalOverlay}
-    >
-    
-      <View style={estilos.modalContainer} pointerEvents="auto">
+    <View style={estilos.modalOverlay}>
+      <View style={estilos.modalContainer}>
         <ScrollView contentContainerStyle={estilos.modalScrollView}>
-        <View style={estilos.modalDH}>
+        <View style={estilos.modalHeaderFooter}>
             <TouchableOpacity style={estilos.modalContent} onPress={props.closeModal}>
               <Icon name="times" size={moderateScale(20)} color="black" />
             </TouchableOpacity>
@@ -55,7 +51,7 @@ const ModalRelatorio = (props) => {
             ))}
           </View>
 
-          <View style={estilos.modalDH}>
+          <View style={estilos.modalHeaderFooter}>
             <View style={estilos.modalContent}>
               <Icon name="calendar" size={moderateScale(15)} color="black" />
               <Text style={[estilos.modalFuncText, { color: "black" }]}>

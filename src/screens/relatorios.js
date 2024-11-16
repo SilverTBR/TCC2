@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList } from 'react-native';
-import MainHeader from '../components/mainHeader/MainHeader';
+import MainHeader from '../components/MainHeader/MainHeader';
 import Dropdownlist from '../components/DropdownList/Dropdownlist';
 import { estilosGeral } from './styles/Sty_Geral';
 import { moderateScale } from 'react-native-size-matters';
@@ -23,7 +23,6 @@ const TelaRelatorios = props => {
   const [selectedFuncionarios, setSelectedFuncionarios] = useState([]);
   const [date, setDate] = useState(null);
   const [hora, setHora] = useState('');
-  const [TempHora, setTempHora] = useState(new Date())
   const [showDate, setShowDate] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [aulasEncontradas, setAulasEncontradas] = useState([]); 
@@ -54,6 +53,7 @@ const TelaRelatorios = props => {
     }
   };
 
+  
   useEffect(() => {
 
     const unsubscribe = props.navigation.addListener('focus', () => {
@@ -72,23 +72,16 @@ const TelaRelatorios = props => {
   const {width} = useWindowDimensions();
 
   const calculaColunas = () => {
-    const itemWidth = moderateScale(270); // ou outro valor conforme o design
+    const itemWidth = moderateScale(270);
     const screenWidth = (80 * width)/100;
     const numColunas = Math.floor(screenWidth / itemWidth);
-    return Math.max(numColunas, 1); // substitua 1 pelo número mínimo de colunas desejado
+    return Math.max(numColunas, 1); 
   };
 
   useEffect(() => {
     setNumColumns(calculaColunas());
   }, [width]);
 
-  const handlePressA = () => {
-    setDropdownVisibleA(!dropdownVisibleA);
-  };
-
-  const handlePressF = () => {
-    setDropdownVisibleF(!dropdownVisibleF);
-  };
 
   const closeDropdown = () => {
     setDropdownVisibleA(false);
@@ -114,7 +107,7 @@ const TelaRelatorios = props => {
 
     return avalSom;
 };
-  const tSelectFuncionarios = id => {
+  const selectFuncionarios = id => {
     setSelectedFuncionarios(prevSelected => {
       const index = prevSelected.indexOf(id);
       if (index === -1) {
@@ -127,7 +120,7 @@ const TelaRelatorios = props => {
     });
   };
 
-  const tSelectAtividade = id => {
+  const selectAtividade = id => {
     setSelectedAtividades(prevSelected => {
       const index = prevSelected.indexOf(id);
       if (index === -1) {
@@ -159,23 +152,13 @@ const TelaRelatorios = props => {
     }
   };
 
-  const pressDate = () => {
-    if (!showDate) {
-      setShowDate(true);
-    }  };
-
-  const pressTime = () => {
-    if (!showTimePicker) {
-      setShowTimePicker(true);
-    }
-  };
-
   const reset = () => {
     setHora('');
     setDate(null);
     setSelectedAtividades([]);
     setSelectedFuncionarios([]);
   };
+  
   const acessarRelatorio = item => {
     props.navigation.push('Grafico', { aula: item });
   };
@@ -211,7 +194,7 @@ const TelaRelatorios = props => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={handlePressA}>
+                onPress={() => {setDropdownVisibleA(!dropdownVisibleA)}}>
                 <Text
                   style={[
                     estilosGeral.inputGFontPlaceholder,
@@ -232,7 +215,7 @@ const TelaRelatorios = props => {
                   items={funcionarios}
                   selectedItems={selectedFuncionarios}
                   closeDropdown={closeDropdown}
-                  handleSelect={tSelectFuncionarios}
+                  handleSelect={selectFuncionarios}
                   isEditavel={false}
                 />
               )}
@@ -243,7 +226,7 @@ const TelaRelatorios = props => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={handlePressF}>
+                onPress={() =>{setDropdownVisibleF(!dropdownVisibleF)}}>
                 <Text
                   style={[
                     estilosGeral.inputGFontPlaceholder,
@@ -264,7 +247,7 @@ const TelaRelatorios = props => {
                   items={atividades}
                   selectedItems={selectedAtividades}
                   closeDropdown={closeDropdown}
-                  handleSelect={tSelectAtividade}
+                  handleSelect={selectAtividade}
                   isEditavel={false}
                 />
               )}
@@ -277,7 +260,7 @@ const TelaRelatorios = props => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={pressDate}>
+                onPress={() => {setShowDate(!showDate);}}>
                 <Text
                   style={
                     date === null 
@@ -306,7 +289,7 @@ const TelaRelatorios = props => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={pressTime}>
+                onPress={() => {setShowTimePicker(!showTimePicker)}}>
                 <Text
                   style={
                     hora === ''
@@ -321,7 +304,7 @@ const TelaRelatorios = props => {
               {showTimePicker && (
                 <DateTimePicker
                   testID="dateTimePicker"
-                  value={TempHora}
+                  value={new Date()}
                   mode="time"
                   is24Hour={true}
                   display="default"

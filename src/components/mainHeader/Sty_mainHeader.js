@@ -1,9 +1,5 @@
 import { StyleSheet } from "react-native";
 import {moderateScale} from 'react-native-size-matters';
-import { Dimensions } from 'react-native';
-
-const windowHeight = Dimensions.get('window').height;
-
 
 const estilosMainHeader = StyleSheet.create({
     header: {
@@ -16,15 +12,6 @@ const estilosMainHeader = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         paddingTop: 20,
-        //Tentar ver depois porque não sai shadow
-        shadowColor: "black",
-        shadowOffset:{
-        width: 0,
-        height: 10,
-        },
-        shadowOpacity: 0.58,
-        shadowRadius: 16.00,
-        elevation: 20,
     },
     Titulo: {
         flex: 1, 

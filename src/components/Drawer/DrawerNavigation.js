@@ -8,8 +8,6 @@ import TelaFuncionarios from "../../screens/funcionarios";
 import TelaRelatorios from "../../screens/relatorios";
 
 const Drawer = createDrawerNavigator()
-
-
 const DrawerNavigation = () => {
     return(
         <Drawer.Navigator drawerContent={(props) => <CustomDrawer {...props}/>} screenOptions={{ headerShown: false, drawerLabelStyle: {color: "white", fontSize: moderateScale(14)}, drawerStyle: {backgroundColor: "black"}, drawerActiveBackgroundColor: "#333333"}}>

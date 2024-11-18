@@ -115,12 +115,14 @@ const TelaAula = props => {
     }
   };
 
-  const editarAtividadeID = async () => {
+  const editarAtividadeID = async () => {    
     try {
+      
       const resultadoC = await editarAtividade(
         itemSelecionadoId,
         itemSelecionadoValue,
       );
+      
       if (resultadoC.success) {
         const resultadoA = await listarAtividades();
         if (resultadoA.success) {

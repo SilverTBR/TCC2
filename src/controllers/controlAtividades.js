@@ -74,15 +74,14 @@ const deletarAtividade = async (idAtividade) => {
     }
 };
 
-const editarAtividade = async (idAtividade, novoNomeAtividade) => {
+const editarAtividade = async (idAtividade, nomeAtividade) => {
     try {
+        let erro = null
         await atividadeSchema.validate({nomeAtividade})
         const db = getDBInstance();
-        if (!novoNomeAtividade || novoNomeAtividade.trim().length === 0) {
-            erro = "Nome da atividade não pode estar vazio.";
-        }
+
         
-        const atividadeLower = novoNomeAtividade.toLowerCase(); 
+        const atividadeLower = nomeAtividade.toLowerCase(); 
         const [validaAtividade] = await db.executeSql(
             'SELECT id FROM atividades WHERE LOWER(nome) = ? AND id != ?',
             [atividadeLower, idAtividade]
@@ -95,10 +94,13 @@ const editarAtividade = async (idAtividade, novoNomeAtividade) => {
         if (erro) {
             return { success: false, error: erro };
         }
+
+        console.log("idAtividade");
+
         
         await db.executeSql(
             'UPDATE atividades SET nome = ? WHERE id = ?',
-            [novoNomeAtividade, idAtividade]
+            [nomeAtividade, idAtividade]
         );
         
         console.log('Atividade editada com sucesso.');
@@ -108,6 +110,7 @@ const editarAtividade = async (idAtividade, novoNomeAtividade) => {
             console.error('Erro ao editar atividade:', error);
             return { success: false, error: "Erro ao editar atividade." };
         }else{
+            console.error('Erro ao editar atividade:', error);
             return { success: false, error: error.errors[0]};
         }
     }

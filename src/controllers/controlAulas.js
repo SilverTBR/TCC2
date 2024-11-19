@@ -54,5 +54,32 @@
         }
     };
 
+    const deletarAula = async (aulaId) => {
+        try {
+            const db = getDBInstance();
 
-    export { cadastrarAula, alterarAvaliacao };
+            await db.executeSql(
+                'DELETE FROM aulas_atividades WHERE aula_id = ?',
+                [aulaId]
+            );
+
+            await db.executeSql(
+                'DELETE FROM aulas_funcionarios WHERE aula_id = ?',
+                [aulaId]
+            );
+
+            await db.executeSql(
+                'DELETE FROM aulas WHERE id = ?',
+                [aulaId]
+            );
+
+            console.log('Aula deletada com sucesso.');
+            return { success: true };
+        } catch (error) {
+            console.error('Erro ao deletar aula:', error);
+            return { success: false, error: "Erro ao deletar aula." };
+        }
+    };
+
+
+    export { cadastrarAula, alterarAvaliacao, deletarAula };

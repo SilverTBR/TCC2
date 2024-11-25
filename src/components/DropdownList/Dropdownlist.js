@@ -8,7 +8,7 @@ const Dropdownlist = ({items, selectedItems, handleSelect, closeDropdown, handle
   Math.max(Math.min(items.length + 1, 3), 1) * moderateScale(38);
 
   const handleItemEditDelete = (id, value, isDelete, isCadastro) => {
-    closeDropdown(); // Feche o dropdown antes de abrir o modal
+    closeDropdown();
     handleEditDeleteModal(id, value, isDelete, isCadastro);
   };
 
@@ -20,7 +20,7 @@ const Dropdownlist = ({items, selectedItems, handleSelect, closeDropdown, handle
           style={[
             estilosDropdownlist.dropdownItem,
             selectedItems.includes(item.key) &&
-              estilosDropdownlist.dropdownItemSelected, // Aplica estilo se estiver selecionado
+              estilosDropdownlist.dropdownItemSelected, 
           ]}
           key={item.key}>
           <TouchableOpacity
@@ -30,7 +30,7 @@ const Dropdownlist = ({items, selectedItems, handleSelect, closeDropdown, handle
               style={[
                 estilosDropdownlist.dropdownItemText,
                 selectedItems.includes(item.key) &&
-                  estilosDropdownlist.dropdownItemSelectedText, // Aplica estilo se estiver selecionado
+                  estilosDropdownlist.dropdownItemSelectedText,
               ]}
               ellipsizeMode="tail"
               numberOfLines={1}>

@@ -7,10 +7,9 @@ import {moderateScale} from 'react-native-size-matters';
 import TextInputMask from 'react-native-text-input-mask';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CustomButton from '../components/Button/customButton';
-import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
-import ImgToBase64 from 'react-native-image-base64';
 import {cadastrarFuncionario, editarFuncionario, excluirFuncionario} from '../controllers/controlFuncionarios';
-import {estilosModal} from './styles/Sty_Modal';
+import ModalDeleteFunc from '../components/ModalDeleteFunc/modalDeleteFunc';
+import ModalSelFoto from '../components/ModalSelFoto/modalSelFoto';
 
 const TelaPerfilFuncionario = props => {
   const [id, setId] = useState(null);
@@ -84,41 +83,7 @@ const TelaPerfilFuncionario = props => {
     }
     
   };
-
-  const convertIMG64 = imgURI => {
-    ImgToBase64.getBase64String(imgURI)
-      .then(base64String => {
-        setImg64(base64String);
-      })
-      .catch(err => console.error(err));
-  };
-
-  const selectImagem = camera => {
-    const opt = {
-      mediaType: 'photo',
-      quality: 1,
-      selectionLimit: 1,
-    };
-
-    if (camera) {
-      launchCamera(opt)
-        .then(resultado => {
-          convertIMG64(resultado.assets[0].uri);
-        })
-        .catch(error => {
-          console.log('Erro ao tirar foto: ' + error);
-        });
-    } else {
-      launchImageLibrary(opt)
-        .then(resultado => {
-          convertIMG64(resultado.assets[0].uri);
-        })
-        .catch(error => {
-          console.log('Erro ao selecionar foto: ' + JSON.stringify(error));
-        });
-    }
-  };
-
+  
   return (
     <View style={estilosGeral.background}>
       <PerfilHeader
@@ -318,98 +283,13 @@ const TelaPerfilFuncionario = props => {
       </ScrollView>
 
       <Modal animationType="slide" transparent={true} visible={abrirModal}>
-        <TouchableWithoutFeedback onPress={() => setAbrirModal(false)}>
-          <View style={estilosModal.modalOverlay}>
-            <TouchableWithoutFeedback
-              onPress={() => {}}
-              touchSoundDisabled={true}>
-              <View style={estilosModal.modalContainer}>
-                <View style={estilosModal.modalContainerItems}>
-                  <View style={estilosModal.modalContainerHeader}>
-                    <Text style={estilosGeral.areaTitulo}>
-                      SELECIONAR FOTO DO FUNCIONARIO
-                    </Text>
-                  </View>
-                  <Icon name="camera" size={moderateScale(100)} color="black" />
-                  <Text style={estilosModal.modalCaixaTexto}>
-                    Selecione se irá utilizar uma foto salva, ou irá tirar uma
-                    foto com a camera
-                  </Text>
-                  <View style={{flexDirection: 'row', width: '100%', gap: 10}}>
-                    <View style={estilosGeral.areaDois}>
-                      <CustomButton
-                        texto="Camera"
-                        action={() => {
-                          selectImagem(true);
-                        }}
-                      />
-                    </View>
-
-                    <View style={estilosGeral.areaDois}>
-                      <CustomButton
-                        texto="Galeria"
-                        action={() => {
-                          selectImagem(false);
-                        }}
-                      />
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </TouchableWithoutFeedback>
+        <ModalSelFoto close={() => setAbrirModal(false)} setImg64={setImg64}/>
       </Modal>
-
       <Modal
         animationType="slide"
         transparent={true}
         visible={abrirModalDelete}>
-        <TouchableWithoutFeedback onPress={() => setAbrirModalDelete(false)}>
-          <View style={estilosModal.modalOverlay}>
-            <TouchableWithoutFeedback
-              onPress={() => {}}
-              touchSoundDisabled={true}>
-              <View style={estilosModal.modalContainer}>
-                <View style={estilosModal.modalContainerItems}>
-                  <View style={estilosModal.modalContainerHeader}>
-                    <Text style={estilosGeral.areaTitulo}>
-                      DELETAR O FUNCIONARIO {nome}
-                    </Text>
-                  </View>
-                  <Icon
-                    name="exclamation"
-                    size={moderateScale(100)}
-                    color="red"
-                  />
-                  <Text style={estilosModal.modalCaixaTexto}>
-                    Tem certeza que irá deletar este funcionario?
-                  </Text>
-                  <View style={{flexDirection: 'row', width: '100%', gap: 10}}>
-                    <View style={estilosGeral.areaDois}>
-                      <CustomButton
-                        texto="Confirmar"
-                        action={() => {
-                          Deletar();
-                        }}
-                      />
-                    </View>
-
-                    <View style={estilosGeral.areaDois}>
-                      <CustomButton
-                        texto="Cancelar"
-                        action={() => {
-                          setAbrirModalDelete(false);
-                        }}
-                        cor="#414141"
-                      />
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </TouchableWithoutFeedback>
-          </View>
-        </TouchableWithoutFeedback>
+          <ModalDeleteFunc close = {() => setAbrirModalDelete(false)} nome = {nome} id={id} setErro ={setErro} return={() => props.navigation.pop()}/>
       </Modal>
     </View>
   );

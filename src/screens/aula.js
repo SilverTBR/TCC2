@@ -8,11 +8,9 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import CustomButton from '../components/Button/customButton';
 import {listarAtividades} from '../controllers/controlAtividades';
 import {ListarFuncionarios} from '../controllers/controlFuncionarios';
-import {cadastrarAtividade,deletarAtividade,editarAtividade} from '../controllers/controlAtividades';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {cadastrarAula} from '../controllers/controlAulas';
 import {initDB} from '../database/sqlite';
-import {estilosModal} from './styles/Sty_Modal';
 import ModalBackup from '../components/ModalBackup/modalBackup';
 
 const TelaAula = props => {
@@ -27,7 +25,6 @@ const TelaAula = props => {
   const [itemSelecionadoId, setItemSelecionadoId] = useState(null);
   const [itemSelecionadoValue, setItemSelecionadoValue] = useState('');
   const [isCadastro, setIsCadastro] = useState(false);
-  const [modalError, setModalError] = useState('');
   const [objetivo, setObjetivo] = useState('');
   const [date, setDate] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
@@ -93,71 +90,6 @@ const TelaAula = props => {
     setIsDelete(isDelete);
     setIsCadastro(isCadastro);
     setAbrirModal(true);
-  };
-
-  const adicionarAtividade = async () => {
-    try {
-      const resultado = await cadastrarAtividade(itemSelecionadoValue);
-      if (resultado.success) {
-        const resultadoL = await listarAtividades();
-        if (resultadoL.success) {
-          setAtividades(resultadoL.atividades);
-          setAbrirModal(false);
-          setModalError('');
-        } else {
-          console.error('Erro ao carregar listas:', resultadoL.error);
-        }
-      } else {
-        setModalError(resultado.error);
-      }
-    } catch (error) {
-      console.error('Erro ao salvar atividade:', error);
-    }
-  };
-
-  const editarAtividadeID = async () => {    
-    try {
-      
-      const resultadoC = await editarAtividade(
-        itemSelecionadoId,
-        itemSelecionadoValue,
-      );
-      
-      if (resultadoC.success) {
-        const resultadoA = await listarAtividades();
-        if (resultadoA.success) {
-          setAtividades(resultadoA.atividades);
-          setAbrirModal(false);
-          setModalError('');
-        } else {
-          console.error('Erro ao carregar listas:', resultadoA.error);
-        }
-      } else {
-        setModalError(resultadoC.error);
-      }
-    } catch (error) {
-      console.error('Erro ao salvar atividade:', error);
-    }
-  };
-
-  const deletarAtividadeID = async () => {
-    try {
-      const resultadoD = await deletarAtividade(itemSelecionadoId);
-      if (resultadoD.success) {
-        const resultadoL = await listarAtividades();
-        if (resultadoL.success) {
-          setAtividades(resultadoL.atividades);
-          setAbrirModal(false);
-          setModalError('');
-        } else {
-          console.error('Erro ao carregar listas:', resultadoL.error);
-        }
-      }else{
-        setModalError(resultadoD.error);
-      }
-    } catch (error) {
-      console.error('Erro ao deletar atividade:', error);
-    }
   };
 
   const mudouData = (event, selectedDate) => {
@@ -450,121 +382,13 @@ const TelaAula = props => {
         </ScrollView>
 
         <Modal animationType="slide" transparent={true} visible={abrirModal}>
-          <TouchableWithoutFeedback
-            onPress={() => [setAbrirModal(false), setModalError('')]}>
-            <View style={estilosModal.modalOverlay}>
-              <TouchableWithoutFeedback
-                onPress={() => {}}
-                touchSoundDisabled={true}>
-                <View style={estilosModal.modalContainer}>
-                  <View style={estilosModal.modalContainerItems}>
-                    <View style={estilosModal.modalContainerHeader}>
-                      <Text style={estilosGeral.areaTitulo}>
-                        {isDelete
-                          ? 'DELETAR'
-                          : isCadastro
-                          ? 'CADASTRAR'
-                          : 'EDITAR'}{' '}
-                        ATIVIDADE
-                      </Text>
-                    </View>
-                    {isDelete ? (
-                      <>
-                        <Icon
-                          name="exclamation"
-                          size={moderateScale(100)}
-                          color="red"
-                        />
-                        <Text style={estilosModal.modalCaixaTexto}>
-                          Tem certeza que deseja excluir a atividade:{' '}
-                          <Text style={estilosModal.modalCaixaTextoDestaque}>
-                            {itemSelecionadoValue}
-                          </Text>
-                        </Text>
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            width: '100%',
-                            gap: 10,
-                          }}>
-                          <View style={estilosGeral.areaDois}>
-                            <CustomButton
-                              texto="Cancelar"
-                              action={() => {
-                                setAbrirModal(false);
-                              }}
-                              cor="#414141"
-                            />
-                          </View>
-
-                          <View style={estilosGeral.areaDois}>
-                            <CustomButton
-                              texto="Confirmar"
-                              action={() => {
-                                deletarAtividadeID();
-                              }}
-                            />
-                          </View>
-                        </View>
-                      </>
-                    ) : (
-                      <>
-                        <Text style={estilosGeral.areaInfoTexto}>
-                          {isCadastro
-                            ? 'Cadastre uma nova atividade'
-                            : 'Altere a informação do campo selecionado'}
-                        </Text>
-
-                        <View style={estilosGeral.areaInputItem}>
-                          <Text style={estilosGeral.areaInputLabel}>
-                            Atividade<Text style={{color: 'red'}}>*</Text>
-                          </Text>
-                          <TextInput
-                            style={[
-                              estilosGeral.inputG,
-                              estilosGeral.inputGFont,
-                            ]}
-                            value={itemSelecionadoValue}
-                            onChangeText={setItemSelecionadoValue}
-                          />
-                        </View>
-
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            width: '100%',
-                            gap: 10,
-                          }}>
-                          <View style={estilosGeral.areaDois}>
-                            <CustomButton
-                              texto="Cancelar"
-                              action={() => {
-                                setModalError('');
-                                setAbrirModal(false);
-                              }}
-                              cor="#414141"
-                            />
-                          </View>
-
-                          <View style={estilosGeral.areaDois}>
-                            <CustomButton
-                              texto={isCadastro ? 'Cadastrar' : 'Confirmar'}
-                              action={() => {
-                                isCadastro
-                                  ? adicionarAtividade()
-                                  : editarAtividadeID();
-                              }}
-                            />
-                          </View>
-                        </View>
-                      </>
-                    )}
-                    <Text style={estilosGeral.textoError}>{modalError}</Text>
-                  </View>
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
-          </TouchableWithoutFeedback>
+          <modalCrudAtividades 
+            close={() => setAbrirModal(false)} 
+            isDelete={isDelete} 
+            isCadastro={isCadastro} 
+            idItemSelecionado={itemSelecionadoId} 
+            itemSelecionadoValue={itemSelecionadoValue} 
+            setAtividades={setAtividades}/>
         </Modal>
         <Modal
           visible={backupModalVisible}

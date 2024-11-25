@@ -56,13 +56,13 @@ const TelaRelatorios = props => {
   
   useEffect(() => {
 
-    const unsubscribe = props.navigation.addListener('focus', () => {
+    const reFocus = props.navigation.addListener('focus', () => {
       carregarDados();
       realizarPesquisaAulas();
     });
 
-    return unsubscribe;
-  }, [props.navigation]);
+    return reFocus;
+  }, []);
 
   useEffect(() => {
     realizarPesquisaAulas();
@@ -126,9 +126,9 @@ const TelaRelatorios = props => {
       if (index === -1) {
         return [...prevSelected, id];
       } else {
-        const newSelected = [...prevSelected];
-        newSelected.splice(index, 1);
-        return newSelected;
+        const selecionados = [...prevSelected];
+        selecionados.splice(index, 1);
+        return selecionados;
       }
     });
   };

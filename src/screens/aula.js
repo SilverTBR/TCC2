@@ -12,6 +12,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {cadastrarAula} from '../controllers/controlAulas';
 import {initDB} from '../database/sqlite';
 import ModalBackup from '../components/ModalBackup/modalBackup';
+import ModalCrudAtividades from '../components/ModalCrudAtividades/modalCrudAtividades';
 
 const TelaAula = props => {
   const [atividades, setAtividades] = useState([]);
@@ -35,9 +36,21 @@ const TelaAula = props => {
   const [error, setError] = useState('');
   const [backupModalVisible, setBackupModalVisible] = useState(false);
 
+
+  const clear = () => {
+    setHoraInicio('');
+    setHoraFim('');
+    setDate(new Date());
+    setObjetivo("")
+    setSelectedFuncionarios([]);
+    setSelectedAtividades([])
+
+  }
+
   useEffect(() => {
     const reFocus = props.navigation.addListener('focus', async () => {
       try {
+        clear();
         await initDB();
         const resultadoA = await listarAtividades();
         const resultadoF = await ListarFuncionarios();
@@ -50,7 +63,9 @@ const TelaAula = props => {
       }
     });
 
-    return reFocus;
+    return () => {
+      reFocus();
+    };
   }, []);
 
   const selectAtividades = id => {
@@ -84,7 +99,7 @@ const TelaAula = props => {
     setDropdownVisibleF(false);
   };
 
-  const EditDeleteModal = (id, value, isDelete, isCadastro) => {
+  const editDeleteModal = (id, value, isDelete, isCadastro) => {
     setItemSelecionadoId(id);
     setItemSelecionadoValue(value);
     setIsDelete(isDelete);
@@ -96,12 +111,6 @@ const TelaAula = props => {
     setShowDate(false);
     if (selectedDate && event.type === 'set') {
       setDate(selectedDate);
-    }
-  };
-
-  const pressDate = () => {
-    if (!showDate) {
-      setShowDate(true);
     }
   };
 
@@ -127,18 +136,6 @@ const TelaAula = props => {
         minuto < 10 ? '0' : ''
       }${minuto}`;
       setHoraFim(tempoAtual);
-    }
-  };
-
-  const pressInicio = () => {
-    if (!showInicio) {
-      setShowInicio(true);
-    }
-  };
-
-  const pressFim = () => {
-    if (!showFim) {
-      setShowFim(true);
     }
   };
 
@@ -229,7 +226,7 @@ const TelaAula = props => {
                   selectedItems={selectedAtividades}
                   handleSelect={selectAtividades}
                   closeDropdown={closeDropdowns}
-                  handleEditDeleteModal={EditDeleteModal}
+                  handleEditDeleteModal={editDeleteModal}
                   isEditavel={true}
                 />
               )}
@@ -270,7 +267,7 @@ const TelaAula = props => {
                   selectedItems={selectedFuncionarios}
                   handleSelect={selectFuncionarios}
                   closeDropdown={closeDropdowns}
-                  handleEditDeleteModal={EditDeleteModal}
+                  handleEditDeleteModal={editDeleteModal}
                   isEditavel={false}
                 />
               )}
@@ -293,7 +290,7 @@ const TelaAula = props => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={pressDate}
+                onPress={() => {setShowDate(true)}}
                 disabled={showDate}>
                 <Text style={[estilosGeral.inputGFont]}>
                   {date.toLocaleDateString()}
@@ -318,7 +315,7 @@ const TelaAula = props => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={pressInicio}
+                onPress={() => {setShowInicio(true)}}
                 disabled={showDate}>
                 <Text style={[estilosGeral.inputGFont, horaInicio === '' ? estilosGeral.inputGFontPlaceholder: '' ]} >
                   {horaInicio === '' ? 'HH:MM' : horaInicio}
@@ -345,7 +342,7 @@ const TelaAula = props => {
               <TouchableOpacity
                 style={estilosGeral.inputG}
                 activeOpacity={0.5}
-                onPress={pressFim}
+                onPress={() => {setShowFim(true)}}
                 disabled={showDate}>
                 <Text style={[estilosGeral.inputGFont, horaFim === '' ? estilosGeral.inputGFontPlaceholder: '' ]} >
                 {horaFim === '' ? 'HH:MM' : horaFim}
@@ -382,7 +379,7 @@ const TelaAula = props => {
         </ScrollView>
 
         <Modal animationType="slide" transparent={true} visible={abrirModal}>
-          <modalCrudAtividades 
+          <ModalCrudAtividades 
             close={() => setAbrirModal(false)} 
             isDelete={isDelete} 
             isCadastro={isCadastro} 

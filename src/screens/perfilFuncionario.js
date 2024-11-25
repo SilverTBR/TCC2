@@ -1,4 +1,4 @@
-import {Text, View, TextInput, ScrollView, TouchableOpacity, Modal, TouchableWithoutFeedback, Image} from 'react-native';
+import {Text, View, TextInput, ScrollView, TouchableOpacity, Modal, Image} from 'react-native';
 import {useEffect, useState} from 'react';
 import PerfilHeader from '../components/MainHeader/PerfilHeader';
 import {estilosGeral} from './styles/Sty_Geral';
@@ -7,7 +7,7 @@ import {moderateScale} from 'react-native-size-matters';
 import TextInputMask from 'react-native-text-input-mask';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CustomButton from '../components/Button/customButton';
-import {cadastrarFuncionario, editarFuncionario, excluirFuncionario} from '../controllers/controlFuncionarios';
+import {cadastrarFuncionario, editarFuncionario} from '../controllers/controlFuncionarios';
 import ModalDeleteFunc from '../components/ModalDeleteFunc/modalDeleteFunc';
 import ModalSelFoto from '../components/ModalSelFoto/modalSelFoto';
 
@@ -63,16 +63,6 @@ const TelaPerfilFuncionario = props => {
       } else {
         setErro(resposta.error);
       }
-    }
-  };
-
-  const Deletar = async () => {
-    const response = await excluirFuncionario(id);
-    setAbrirModalDelete(false);
-    if (response.success) {
-      props.navigation.pop();
-    } else {
-      setErro(response.error);
     }
   };
 

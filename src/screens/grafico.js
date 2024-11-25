@@ -10,12 +10,8 @@ import { deletarAula } from '../controllers/controlAulas';
 
 
 const TelaGrafico = (props) => {
-  useEffect(() => {
-    Orientation.lockToLandscape();
-    return () => {
-      Orientation.unlockAllOrientations();
-    };
-  }, []);
+
+
 
   const [data, setData] = useState([]);
 
@@ -49,9 +45,13 @@ const TelaGrafico = (props) => {
   };
 
   useEffect(() => {
+    Orientation.lockToLandscape();
     definirAval();
+    return () => {
+      Orientation.unlockAllOrientations();
+    };
   }, []);
-
+  
   return (
     <View style={estilosGeral.background}>
       <PerfilHeader titulo={"PERCENTUAL DE APROVAÇÃO: "+ definirPercentual().toFixed(2)+"%"} action={() => { props.navigation.pop() }} id={props.route.params.aula.id} deleteAction = {() => {deletarAulaID()}}/>

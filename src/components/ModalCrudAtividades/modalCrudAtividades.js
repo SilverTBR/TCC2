@@ -12,7 +12,7 @@ import {estilosModal} from '../../screens/styles/Sty_Modal';
 import {useState} from 'react';
 import { editarAtividade, deletarAtividade, listarAtividades, cadastrarAtividade } from '../../controllers/controlAtividades';
 
-const modalCrudAtividades = props => {
+const ModalCrudAtividades = props => {
   const [modalError, setModalError] = useState('');
   const [itemSelecionadoValue, setItemSelecionadoValue] = useState(props.itemSelecionadoValue);
 

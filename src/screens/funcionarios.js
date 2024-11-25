@@ -5,13 +5,11 @@ import MainHeader from '../components/MainHeader/MainHeader';
 import CustomButton from '../components/Button/customButton';
 import Render_Funcionario from '../components/Render_funcionario/Render_Funcionario';
 import { selectFuncionarios } from '../controllers/controlFuncionarios';
-import Orientation from 'react-native-orientation-locker';
 import { moderateScale } from 'react-native-size-matters';
 import { useWindowDimensions } from 'react-native';
 
 const TelaFuncionarios = props => {
   const [funcionarios, setFuncionarios] = useState([]);
-  const [orientation, setOrientation] = useState(Orientation.getInitialOrientation());
 
   const carregarDados = async () => {
     const { success, funcionarios } = await selectFuncionarios();

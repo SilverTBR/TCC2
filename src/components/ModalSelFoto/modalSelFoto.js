@@ -10,6 +10,7 @@ import {moderateScale} from 'react-native-size-matters';
 import {estilosModal} from '../../screens/styles/Sty_Modal';
 import ImgToBase64 from 'react-native-image-base64';
 import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
+import ImageResizer from '@bam.tech/react-native-image-resizer';
 
 const ModalSelFoto = props => {
 
@@ -27,21 +28,44 @@ const ModalSelFoto = props => {
     const opt = {
       mediaType: 'photo',
       quality: 1,
-      selectionLimit: 1,
+      selectionLimit: 1
     };
 
     if (camera) {
       launchCamera(opt)
-        .then(resultado => {
-          convertIMG64(resultado.assets[0].uri);
+        .then(async resultado => {
+          const imageCorrigida = await ImageResizer.createResizedImage(
+            resultado.assets[0].uri,
+            resultado.assets[0].width,
+            resultado.assets[0].height,
+            'JPEG',
+            100,
+            0,
+            null,
+            false
+          )         
+
+          convertIMG64(imageCorrigida.uri);
         })
         .catch(error => {
           console.log('Erro ao tirar foto: ' + error);
         });
     } else {
       launchImageLibrary(opt)
-        .then(resultado => {
-          convertIMG64(resultado.assets[0].uri);
+        .then(async resultado => {
+          console.log(resultado.assets[0]);
+          
+          const imageCorrigida = await ImageResizer.createResizedImage(
+            resultado.assets[0].uri,
+            resultado.assets[0].width,
+            resultado.assets[0].height,
+            'JPEG',
+            100,
+            0,
+            null,
+            false
+          )      
+          convertIMG64(imageCorrigida.uri);
         })
         .catch(error => {
           console.log('Erro ao selecionar foto: ' + JSON.stringify(error));

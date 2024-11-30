@@ -59,6 +59,7 @@ const TelaRelatorios = props => {
     const reFocus = props.navigation.addListener('focus', () => {
       carregarDados();
       realizarPesquisaAulas();
+      reset();
     });
 
     return reFocus;

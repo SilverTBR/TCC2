@@ -59,7 +59,7 @@ const TelaAvaliacao = props => {
             <ImageBackground source={require("../assets/images/background.jpg")} style={estiloAvaliacao.backgroundImage}>
                 <TouchableOpacity style={estiloAvaliacao.return} onLongPress={() => {concluirAvaliacao()}} delayLongPress={1000}/>
 
-                <View style={{width:"100%", alignItems: "center"}}>
+                <View style={{width:"100%", alignItems: "center", marginBottom: 30}}>
                     <View>
                         <Text style={estiloAvaliacao.textTitulo}>{!confirmou ? "Obrigado por avaliar esta aula" : "VOCÊ GOSTOU DA AULA?"}</Text>
                         <Text style={estiloAvaliacao.textSubtitulo}>{!confirmou ? "Usaremos sua avaliação para melhorar as aulas o melhor possível!" : "Nós de um feedback do quanto gostou desta aula!"}</Text>

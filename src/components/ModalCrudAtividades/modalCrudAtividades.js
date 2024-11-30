@@ -192,4 +192,4 @@ const ModalCrudAtividades = props => {
   );
 };
 
-export default modalCrudAtividades;
+export default ModalCrudAtividades;

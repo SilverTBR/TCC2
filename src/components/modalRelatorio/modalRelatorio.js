@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { estilos } from './Sty_modalRelatorio';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { moderateScale } from 'react-native-size-matters';
 import CustomButton from '../Button/customButton';
+import { estilos } from './Sty_modalRelatorio';
+
 
 const ModalRelatorio = (props) => {  
 

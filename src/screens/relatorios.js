@@ -202,8 +202,8 @@ const TelaRelatorios = props => {
                     selectedFuncionarios.length > 0 && estilosGeral.inputGFont,
                   ]}>
                   {selectedFuncionarios.length > 0
-                    ? `Funcionários selecionados: ${selectedFuncionarios.length}`
-                    : 'Selecione funcionários'}
+                    ? `${selectedFuncionarios.length} funcionários`
+                    : 'Selecionar'}
                 </Text>
                 <Icon
                   name="angle-down"
@@ -234,8 +234,8 @@ const TelaRelatorios = props => {
                     selectedAtividades.length > 0 && estilosGeral.inputGFont,
                   ]}>
                   {selectedAtividades.length > 0
-                    ? `Atividades selecionadas: ${selectedAtividades.length}`
-                    : 'Selecione atividades'}
+                    ? `${selectedAtividades.length} atividades`
+                    : 'Selecionar'}
                 </Text>
                 <Icon
                   name="angle-down"
